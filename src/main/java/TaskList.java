@@ -12,10 +12,34 @@ public class TaskList {
 
     // Add task to the list and print the added task
     public void addTask(String message) {
-        Task task = new Task(message);
+        Task task;
+        // Create new todo task
+        if (message.toLowerCase().startsWith("todo")) {
+            task = new Todo(message.substring(5).trim());
+
+            // Create new deadline task
+        } else if (message.toLowerCase().startsWith("deadline")) {
+            String[] details = message.substring(9).split("/by");
+            String description = details[0].trim();
+            String by = details[1].trim();
+            task = new Deadline(description, by);
+
+            // Create new event task
+        } else if (message.toLowerCase().startsWith("event")) {
+            String[] details = message.substring(6).split("/from|/to");
+            String description = details[0].trim();
+            String from = details[1].trim();
+            String to = details[2].trim();
+            task = new Event(description, from, to);
+            // Else, create normal task
+        } else {
+            task = new Task(message);
+        }
+
         taskMap.put(taskId, task);
         String addedTask = "____________________________________________________________ \n"
-                + "added: " + message + "\n"
+                + "Got it. I've added this task: \n" + "  " + task.toString() + "\n"
+                + "Now you have " + this.taskId + " tasks in the list. \n"
                 + "____________________________________________________________ \n";
         System.out.println(addedTask);
         this.taskId++;
@@ -31,7 +55,7 @@ public class TaskList {
             for (Map.Entry<Integer, Task> entry : taskMap.entrySet()) {
                 int taskId = entry.getKey();
                 Task task = entry.getValue();
-                System.out.println(taskId + ". " + task.printTask());
+                System.out.println(taskId + ". " + task.toString());
             }
             System.out.println("____________________________________________________________ \n");
         }
@@ -44,7 +68,7 @@ public class TaskList {
             task.markAsDone();
             System.out.println("____________________________________________________________");
             System.out.println("Nice! I've marked this task as done: \n "
-                    + task.printTask() + "\n"
+                    + task.toString() + "\n"
                     + "____________________________________________________________ \n");
 
         } else {
@@ -59,7 +83,7 @@ public class TaskList {
             task.markAsNotDone();
             System.out.println("____________________________________________________________");
             System.out.println("OK, I've marked this task as not done yet: \n "
-                    + task.printTask() + "\n"
+                    + task.toString() + "\n"
                     + "____________________________________________________________ \n");
 
         } else {
