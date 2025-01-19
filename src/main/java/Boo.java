@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Boo {
     public static void main(String[] args) {
         Greeting greeting = new Greeting();
-        InputHistory inputHistory = new InputHistory();
+        TaskList taskList = new TaskList();
 
         // Print greeting message
         greeting.printGreeting();
@@ -23,10 +23,16 @@ public class Boo {
             } else {
                 // Print list if user types "list"
                 if (input.equalsIgnoreCase("list")) {
-                    inputHistory.printHistory();
+                    taskList.printHistory();
+                } else if (input.toLowerCase().startsWith("mark")) {
+                    int taskId = Integer.parseInt(input.split(" ")[1]);
+                    taskList.markAsDone(taskId);
+                } else if (input.toLowerCase().startsWith("unmark")) {
+                    int taskId = Integer.parseInt(input.split(" ")[1]);
+                    taskList.markAsNotDone(taskId);
                 } else {
                     // Else, add message and print the added message
-                    inputHistory.addMessage(input);
+                    taskList.addTask(input);
                 }
             }
 
