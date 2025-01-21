@@ -11,29 +11,92 @@ public class TaskList {
     }
 
     // Add task to the list and print the added task
-    public void addTask(String message) {
+    public void addTask(String message) throws BooException{
         Task task;
+
         // Create new todo task
         if (message.toLowerCase().startsWith("todo")) {
-            task = new Todo(message.substring(5).trim());
+            try {
+                String description = message.substring(5).trim();
+                if (description.isEmpty()) {
+                    throw new BooException("Oops! Boo needs to know what todo task to add to the list!\nPlease add a description of the todo task so Boo can help you!\n");
+                }
+                task = new Todo(description);
+
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new BooException("Oops! Boo needs to know what todo task to add to the list!\nPlease add a description of the todo so Boo can help you!\n");
+            }
 
             // Create new deadline task
         } else if (message.toLowerCase().startsWith("deadline")) {
-            String[] details = message.substring(9).split("/by");
-            String description = details[0].trim();
-            String by = details[1].trim();
-            task = new Deadline(description, by);
+            try {
+                String[] details = message.substring(9).split("/by");
+                String description = details[0].trim();
+
+                // Check if there is a description
+                if (description.isEmpty()) {
+                    throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\nPlease add a description of the deadline task so Boo can help you!\n");
+                }
+
+                // Check if '/by' date is provided
+                String by = details[1].trim();
+                if (by.isEmpty()) {
+                    throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (deadline)\n");
+                }
+
+                task = new Deadline(description, by);
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\nPlease add a description of the deadline task so Boo can help you!\n");
+            } catch (IndexOutOfBoundsException e) {
+                throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (deadline)\n");
+            }
 
             // Create new event task
         } else if (message.toLowerCase().startsWith("event")) {
-            String[] details = message.substring(6).split("/from|/to");
-            String description = details[0].trim();
-            String from = details[1].trim();
-            String to = details[2].trim();
-            task = new Event(description, from, to);
-            // Else, create normal task
+            try {
+                String[] details = message.substring(6).split("/from|/to");
+                String description = details[0].trim();
+                // Check if there is a description
+                if (description.isEmpty()) {
+                    throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
+                }
+
+                // Check if '/from' date is provided
+                String from = details[1].trim();
+                if (from.isEmpty()) {
+                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (start time)\n");
+                }
+
+                String to = details[2].trim();
+                if (to.isEmpty()) {
+                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (start time)\n");
+                }
+
+                if (description.isEmpty()) {
+                    throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
+                }
+                if (from.isEmpty()) {
+                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (start time)\n");
+                }
+                if (to.isEmpty()) {
+                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (end time)\n");
+                }
+
+                task = new Event(description, from, to);
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new BooException("Oops! Boo needs both '/from' and '/to' times for the event task!\nPlease provide both times, in the format of: /from (start time) /to (end time)\n");
+            }
+
+            // Else, throw exception
         } else {
-            task = new Task(message);
+            throw new BooException("Oops, Boo does not understand what you mean :(\n"
+                                            + "Please use these keywords: \n"
+                                            + "1. list: list our your task list\n"
+                                            + "2. mark: mark a specific task as done (please specify which taskID)\n"
+                                            + "3. unmark: unmark a specific task as done (please specify which taskID)\n"
+                                            + "4. todo/event/deadline: add a a todo/event/deadline task\n");
         }
 
         taskMap.put(taskId, task);
@@ -48,7 +111,7 @@ public class TaskList {
     // Display the list of tasks
     public void printHistory() {
         if (this.taskMap.isEmpty()) {
-            System.out.println("Task List is empty");
+            System.out.println("Task List is empty\n");
         } else {
             System.out.println("____________________________________________________________");
             System.out.println("Here are the tasks in your list:");
@@ -62,32 +125,45 @@ public class TaskList {
     }
 
     // Mark task as done and print out marked task
-    public void markAsDone(int taskId) {
-        Task task = taskMap.get(taskId);
-        if (task != null) {
+    public void markAsDone(String input) throws BooException {
+        try {
+            int taskId = Integer.parseInt(input.split(" ")[1]);
+            Task task = taskMap.get(taskId);
+            if (task == null) {
+                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+            }
             task.markAsDone();
             System.out.println("____________________________________________________________");
             System.out.println("Nice! I've marked this task as done:\n "
                     + task.toString() + "\n"
                     + "____________________________________________________________\n");
-
-        } else {
-            System.out.println("Error 404. Task not found.");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\nPlease try again so that Boo can help :)\n");
+        } catch (NumberFormatException e) {
+            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
         }
+
     }
 
     // mark task as undone and print out unmarked task
-    public void markAsNotDone(int taskId) {
-        Task task = taskMap.get(taskId);
-        if (task != null) {
+    public void markAsNotDone(String input) throws BooException {
+        try {
+            int taskId = Integer.parseInt(input.split(" ")[1]);
+            Task task = taskMap.get(taskId);
+            if (task == null) {
+                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+            }
             task.markAsNotDone();
             System.out.println("____________________________________________________________");
             System.out.println("OK, I've marked this task as not done yet:\n "
                     + task.toString() + "\n"
                     + "____________________________________________________________\n");
 
-        } else {
-            System.out.println("Error 404. Task not found.");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\nPlease try again so that Boo can help :)\n");
+        } catch (NumberFormatException e) {
+            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
         }
+
     }
 }

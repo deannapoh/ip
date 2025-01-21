@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Boo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BooException {
         Greeting greeting = new Greeting();
         TaskList taskList = new TaskList();
 
@@ -15,26 +15,31 @@ public class Boo {
             // Read user input
             String input = scanner.nextLine();
 
-            // Exit and show goodbye message if user types "bye"
-            if (input.equalsIgnoreCase("bye")) {
-                // Print goodbye message
-                greeting.printGoodbyeMessage();
-                break;
-            } else {
-                // Print list if user types "list"
-                if (input.equalsIgnoreCase("list")) {
-                    taskList.printHistory();
-                } else if (input.toLowerCase().startsWith("mark")) {
-                    int taskId = Integer.parseInt(input.split(" ")[1]);
-                    taskList.markAsDone(taskId);
-                } else if (input.toLowerCase().startsWith("unmark")) {
-                    int taskId = Integer.parseInt(input.split(" ")[1]);
-                    taskList.markAsNotDone(taskId);
+            try {
+                // Exit and show goodbye message if user types "bye"
+                if (input.equalsIgnoreCase("bye")) {
+                    // Print goodbye message
+                    greeting.printGoodbyeMessage();
+                    break;
                 } else {
-                    // Else, add message and print the added message
-                    taskList.addTask(input);
+                    // Print list if user types "list"
+                    if (input.equalsIgnoreCase("list")) {
+                        taskList.printHistory();
+                    } else if (input.toLowerCase().startsWith("mark")) {
+                        taskList.markAsDone(input);
+                    } else if (input.toLowerCase().startsWith("unmark")) {
+                        taskList.markAsNotDone(input);
+                    } else {
+                        // Else, add message and print the added message
+                        taskList.addTask(input);
+                    }
                 }
+
+            } catch (BooException e) {
+                System.out.println(e.getMessage());
             }
+
+
 
         }
 
