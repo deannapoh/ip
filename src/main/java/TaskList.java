@@ -37,10 +37,10 @@ public class TaskList {
         }
 
         taskMap.put(taskId, task);
-        String addedTask = "____________________________________________________________ \n"
-                + "Got it. I've added this task: \n" + "  " + task.toString() + "\n"
-                + "Now you have " + this.taskId + " tasks in the list. \n"
-                + "____________________________________________________________ \n";
+        String addedTask = "____________________________________________________________\n"
+                + "Got it. I've added this task:\n" + "  " + task.toString() + "\n"
+                + "Now you have " + this.taskId + " tasks in the list.\n"
+                + "____________________________________________________________\n";
         System.out.println(addedTask);
         this.taskId++;
     }
@@ -57,7 +57,7 @@ public class TaskList {
                 Task task = entry.getValue();
                 System.out.println(taskId + ". " + task.toString());
             }
-            System.out.println("____________________________________________________________ \n");
+            System.out.println("____________________________________________________________\n");
         }
     }
 
@@ -67,9 +67,9 @@ public class TaskList {
         if (task != null) {
             task.markAsDone();
             System.out.println("____________________________________________________________");
-            System.out.println("Nice! I've marked this task as done: \n "
+            System.out.println("Nice! I've marked this task as done:\n "
                     + task.toString() + "\n"
-                    + "____________________________________________________________ \n");
+                    + "____________________________________________________________\n");
 
         } else {
             System.out.println("Error 404. Task not found.");
@@ -82,9 +82,9 @@ public class TaskList {
         if (task != null) {
             task.markAsNotDone();
             System.out.println("____________________________________________________________");
-            System.out.println("OK, I've marked this task as not done yet: \n "
+            System.out.println("OK, I've marked this task as not done yet:\n "
                     + task.toString() + "\n"
-                    + "____________________________________________________________ \n");
+                    + "____________________________________________________________\n");
 
         } else {
             System.out.println("Error 404. Task not found.");

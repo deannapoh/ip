@@ -11,7 +11,7 @@ public class Boo {
         // Create scanner to read user inputs
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
+        while (scanner.hasNextLine()) {
             // Read user input
             String input = scanner.nextLine();
 
