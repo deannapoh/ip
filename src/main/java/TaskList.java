@@ -96,7 +96,8 @@ public class TaskList {
                                             + "1. list: list our your task list\n"
                                             + "2. mark: mark a specific task as done (please specify which taskID)\n"
                                             + "3. unmark: unmark a specific task as done (please specify which taskID)\n"
-                                            + "4. todo/event/deadline: add a a todo/event/deadline task\n");
+                                            + "4. delete: delete a specific task from the list (please specify which taskID)\n"
+                                            + "5. todo/event/deadline: add a todo/event/deadline task\n");
         }
 
         taskMap.put(taskId, task);
@@ -121,6 +122,37 @@ public class TaskList {
                 System.out.println(taskId + ". " + task.toString());
             }
             System.out.println("____________________________________________________________\n");
+        }
+    }
+
+    public void deleteTask(String input) throws BooException {
+        try {
+            int taskId = Integer.parseInt(input.split(" ")[1]);
+            Task task = taskMap.get(taskId);
+            if (task == null) {
+                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+            }
+            this.taskMap.remove(taskId);
+
+            //shift the remaining tasks
+            for (int i = taskId + 1; i <= this.taskId - 1; i++) {
+                Task shiftedTask = taskMap.get(i);
+                if (shiftedTask != null) {
+                    taskMap.put(i - 1, shiftedTask);
+                    taskMap.remove(i);
+                }
+            }
+            // total taskID - 1 since one task was deleted
+            this.taskId--;
+            System.out.println("____________________________________________________________");
+            System.out.println("Noted. I've removed this task:\n "
+                    + task.toString() + "\n" + "Now you have " + (this.taskId-1) + " tasks in the list.\n"
+                    +"____________________________________________________________\n");
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new BooException("Oops! Boo needs you to specify a task ID to delete it.\nPlease try again so that Boo can help :)\n");
+        } catch (NumberFormatException e) {
+            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
         }
     }
 

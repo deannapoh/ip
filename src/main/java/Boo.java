@@ -29,6 +29,8 @@ public class Boo {
                         taskList.markAsDone(input);
                     } else if (input.toLowerCase().startsWith("unmark")) {
                         taskList.markAsNotDone(input);
+                    } else if (input.toLowerCase().startsWith("delete")) {
+                        taskList.deleteTask(input);
                     } else {
                         // Else, add message and print the added message
                         taskList.addTask(input);
