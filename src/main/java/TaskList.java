@@ -4,10 +4,21 @@ import java.util.Map;
 public class TaskList {
     private HashMap<Integer, Task> taskMap;
     private int taskId;
+    private Storage storage;
 
-    public TaskList() {
+    public TaskList() throws BooException {
         this.taskMap = new HashMap<Integer, Task>();
-        this.taskId = 1;
+        this.storage = new Storage("./data/Boo.txt");
+        this.taskMap = storage.loadTasks();
+        if (!taskMap.isEmpty()) {
+            this.taskId = taskMap.size() + 1; // Set taskId based on loaded tasks
+        } else {
+            this.taskId = 1;
+        }
+    }
+
+    private void save() throws BooException {
+        storage.saveTask(taskMap);
     }
 
     // Add task to the list and print the added task
@@ -107,6 +118,7 @@ public class TaskList {
                 + "____________________________________________________________\n";
         System.out.println(addedTask);
         this.taskId++;
+        save();
     }
 
     // Display the list of tasks
@@ -144,6 +156,7 @@ public class TaskList {
             }
             // total taskID - 1 since one task was deleted
             this.taskId--;
+            save();
             System.out.println("____________________________________________________________");
             System.out.println("Noted. I've removed this task:\n "
                     + task.toString() + "\n" + "Now you have " + (this.taskId-1) + " tasks in the list.\n"
@@ -165,6 +178,7 @@ public class TaskList {
                 throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
             }
             task.markAsDone();
+            save();
             System.out.println("____________________________________________________________");
             System.out.println("Nice! I've marked this task as done:\n "
                     + task.toString() + "\n"
@@ -186,6 +200,7 @@ public class TaskList {
                 throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
             }
             task.markAsNotDone();
+            save();
             System.out.println("____________________________________________________________");
             System.out.println("OK, I've marked this task as not done yet:\n "
                     + task.toString() + "\n"
