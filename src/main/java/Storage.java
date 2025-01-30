@@ -1,4 +1,6 @@
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,24 +94,33 @@ public class Storage {
                         // Parsing Deadline: split by " (by: "
                         String[] details = description.split(" \\(by: ");
                         if (details.length < 2) {
-                            throw new BooException("Deadline task is missing 'by' date.");
+                            throw new BooException("Oops! Deadline task is missing 'by' date.");
                         }
                         String taskDescription = details[0].trim();
                         String by = details[1].replace(")", "").trim();
-                        task = new Deadline(taskDescription, by);
+                        // Convert "dd MMM yyy h:mm a" to "dd/MMM/yyy hhmm"
+                        LocalDateTime parsedBy = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+                        String newBy = parsedBy.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
+                        task = new Deadline(taskDescription, newBy);
                     } else if (type.equals("Event")) {
                         // Parsing Event: split by " (from: " and " to: "
                         String[] details = description.split(" \\(from: ");
                         if (details.length < 2) {
-                            throw new BooException("Event task is missing 'from' time.");
+                            throw new BooException("Oops! Event task is missing 'from' time.");
                         }
                         String taskDescription = details[0].trim();
                         String[] fromTo = details[1].split(" to: ");
                         String from = fromTo[0].trim();
                         String to = fromTo[1].split("\\)")[0].trim();
-                        task = new Event(taskDescription, from, to);
+
+                        // Convert "dd MMM yyy h:mm a" to "dd/MMM/yyy hhmm"
+                        LocalDateTime parsedFrom = LocalDateTime.parse(from, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+                        String newFrom = parsedFrom.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
+                        LocalDateTime parsedTo = LocalDateTime.parse(from, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+                        String newTo = parsedTo.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
+                        task = new Event(taskDescription, newFrom, newTo);
                     } else {
-                        throw new BooException("Unknown task type found in file.");
+                        throw new BooException("Oh no! Boo could not identify the task type found in file.");
                     }
 
                     // Mark the task as done if necessary
@@ -120,7 +131,7 @@ public class Storage {
                     taskMap.put(taskId, task);
 
                 } catch (Exception e) {
-                    throw new BooException("Error parsing task: " + line);
+                    throw new BooException("Error! Boo could not parse task: " + line);
                 }
             }
         } catch (IOException e) {
