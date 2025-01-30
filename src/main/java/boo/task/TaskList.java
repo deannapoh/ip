@@ -1,5 +1,10 @@
+package boo.task;
+
+import boo.misc.BooException;
+import boo.misc.Ui;
+
 import java.util.HashMap;
-import java.util.Map;
+import boo.misc.Storage;
 
 public class TaskList {
     private HashMap<Integer, Task> taskMap;
@@ -9,7 +14,7 @@ public class TaskList {
 
     public TaskList() throws BooException {
         this.taskMap = new HashMap<Integer, Task>();
-        this.storage = new Storage("./data/Boo.txt");
+        this.storage = new Storage("./data/boo.Boo.txt");
         this.taskMap = storage.loadTasks();
         this.ui = new Ui();
         if (!taskMap.isEmpty()) {
@@ -27,7 +32,7 @@ public class TaskList {
         return this.taskMap;
     }
 
-    // Add task to the list and print the added task
+    // Add boo.task to the list and print the added boo.task
     public void addTask(Task task) throws BooException{
         taskMap.put(taskId, task);
         ui.printAddedTask(taskId, task);
@@ -40,7 +45,7 @@ public class TaskList {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = taskMap.get(taskId);
             if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+                throw new BooException("Oh no! boo.Boo could not find boo.task with ID " + taskId + ".\nMaybe you mixed up the boo.task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your boo.task list\n");
             }
             this.taskMap.remove(taskId);
 
@@ -52,53 +57,53 @@ public class TaskList {
                     taskMap.remove(i);
                 }
             }
-            // total taskID - 1 since one task was deleted
+            // total taskID - 1 since one boo.task was deleted
             this.taskId--;
             save();
             ui.printRemovedTask(this.taskId, task);
 
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to delete it.\nPlease try again so that Boo can help :)\n");
+            throw new BooException("Oops! boo.Boo needs you to specify a boo.task ID to delete it.\nPlease try again so that boo.Boo can help :)\n");
         } catch (NumberFormatException e) {
-            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
+            throw new BooException("Oops! boo.Boo needs your boo.task.Task ID to be an integer!\n");
         }
     }
 
-    // Mark task as done and print out marked task
+    // Mark boo.task as done and print out marked boo.task
     public void markAsDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = taskMap.get(taskId);
             if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+                throw new BooException("Oh no! boo.Boo could not find boo.task with ID " + taskId + ".\nMaybe you mixed up the boo.task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your boo.task list\n");
             }
             task.markAsDone();
             save();
             ui.printMarkedTask(task);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\nPlease try again so that Boo can help :)\n");
+            throw new BooException("Oops! boo.Boo needs you to specify a boo.task ID to mark it as done.\nPlease try again so that boo.Boo can help :)\n");
         } catch (NumberFormatException e) {
-            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
+            throw new BooException("Oops! boo.Boo needs your boo.task.Task ID to be an integer!\n");
         }
 
     }
 
-    // mark task as undone and print out unmarked task
+    // mark boo.task as undone and print out unmarked boo.task
     public void markAsNotDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = taskMap.get(taskId);
             if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+                throw new BooException("Oh no! boo.Boo could not find boo.task with ID " + taskId + ".\nMaybe you mixed up the boo.task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your boo.task list\n");
             }
             task.markAsNotDone();
             save();
             ui.printUnmarkedTask(task);
 
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\nPlease try again so that Boo can help :)\n");
+            throw new BooException("Oops! boo.Boo needs you to specify a boo.task ID to mark it as done.\nPlease try again so that boo.Boo can help :)\n");
         } catch (NumberFormatException e) {
-            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
+            throw new BooException("Oops! boo.Boo needs your boo.task.Task ID to be an integer!\n");
         }
 
     }

@@ -1,22 +1,22 @@
 ____________________________________________________________
-Hello! I'm Boo
+Hello! I'm boo.Boo
 What can I do for you?
 ____________________________________________________________
 
 ____________________________________________________________
-Got it. I've added this task:
+Got it. I've added this boo.task:
   [T][ ] borrow book
 Now you have 1 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
-Got it. I've added this task:
+Got it. I've added this boo.task:
   [D][ ] return book (by: Sunday)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
-Got it. I've added this task:
+Got it. I've added this boo.task:
   [E][ ] project meeting (from: Mon 2pm to: 4pm)
 Now you have 3 tasks in the list.
 ____________________________________________________________
@@ -29,17 +29,17 @@ Here are the tasks in your list:
 ____________________________________________________________
 
 ____________________________________________________________
-Nice! I've marked this task as done:
+Nice! I've marked this boo.task as done:
  [T][X] borrow book
 ____________________________________________________________
 
 ____________________________________________________________
-Nice! I've marked this task as done:
+Nice! I've marked this boo.task as done:
  [D][X] return book (by: Sunday)
 ____________________________________________________________
 
 ____________________________________________________________
-OK, I've marked this task as not done yet:
+OK, I've marked this boo.task as not done yet:
  [T][ ] borrow book
 ____________________________________________________________
 
