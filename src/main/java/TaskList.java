@@ -52,14 +52,14 @@ public class TaskList {
                 // Check if '/by' date is provided
                 String by = details[1].trim();
                 if (by.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (deadline)\n");
+                    throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
                 }
 
                 task = new Deadline(description, by);
             } catch (StringIndexOutOfBoundsException e) {
                 throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\nPlease add a description of the deadline task so Boo can help you!\n");
             } catch (IndexOutOfBoundsException e) {
-                throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (deadline)\n");
+                throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
             }
 
             // Create new event task
@@ -75,29 +75,29 @@ public class TaskList {
                 // Check if '/from' date is provided
                 String from = details[1].trim();
                 if (from.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (start time)\n");
+                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
 
                 String to = details[2].trim();
                 if (to.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (start time)\n");
+                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
 
                 if (description.isEmpty()) {
                     throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
                 }
                 if (from.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (start time)\n");
+                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
                 if (to.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (end time)\n");
+                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
 
                 task = new Event(description, from, to);
             } catch (StringIndexOutOfBoundsException e) {
                 throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
             } catch (ArrayIndexOutOfBoundsException e) {
-                throw new BooException("Oops! Boo needs both '/from' and '/to' times for the event task!\nPlease provide both times, in the format of: /from (start time) /to (end time)\n");
+                throw new BooException("Oops! Boo needs both '/from' and '/to' times for the event task!\nPlease provide both times, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy ) /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
             }
 
             // Else, throw exception
@@ -113,7 +113,7 @@ public class TaskList {
 
         taskMap.put(taskId, task);
         String addedTask = "____________________________________________________________\n"
-                + "Got it. I've added this task:\n" + "  " + task.toString() + "\n"
+                + "Got it. Boo has added this task:\n" + "  " + task.toString() + "\n"
                 + "Now you have " + this.taskId + " tasks in the list.\n"
                 + "____________________________________________________________\n";
         System.out.println(addedTask);
@@ -124,7 +124,7 @@ public class TaskList {
     // Display the list of tasks
     public void printHistory() {
         if (this.taskMap.isEmpty()) {
-            System.out.println("Task List is empty\n");
+            System.out.println("Yay! You currently have no tasks :) \n");
         } else {
             System.out.println("____________________________________________________________");
             System.out.println("Here are the tasks in your list:");
@@ -158,7 +158,7 @@ public class TaskList {
             this.taskId--;
             save();
             System.out.println("____________________________________________________________");
-            System.out.println("Noted. I've removed this task:\n "
+            System.out.println("Noted! Boo has removed this task:\n "
                     + task.toString() + "\n" + "Now you have " + (this.taskId-1) + " tasks in the list.\n"
                     +"____________________________________________________________\n");
 
@@ -180,7 +180,7 @@ public class TaskList {
             task.markAsDone();
             save();
             System.out.println("____________________________________________________________");
-            System.out.println("Nice! I've marked this task as done:\n "
+            System.out.println("Nice! Boo has marked this task as done:\n "
                     + task.toString() + "\n"
                     + "____________________________________________________________\n");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -202,7 +202,7 @@ public class TaskList {
             task.markAsNotDone();
             save();
             System.out.println("____________________________________________________________");
-            System.out.println("OK, I've marked this task as not done yet:\n "
+            System.out.println("OK, Boo has marked this task as not done yet:\n "
                     + task.toString() + "\n"
                     + "____________________________________________________________\n");
 
