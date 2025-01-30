@@ -1,3 +1,11 @@
+package boo.misc;
+
+import boo.task.Deadline;
+import boo.task.Event;
+import boo.task.Task;
+import boo.task.TaskList;
+import boo.task.Todo;
+
 public class Parser {
     private TaskList taskList;
     private Ui ui;

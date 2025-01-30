@@ -1,3 +1,3 @@
-taskID: 1 || Event task || isDone: false || training (from: 20 Jan 2023 2:00 pm to: 20 Jan 2023 2:00 pm)
-taskID: 2 || Todo task || isDone: true || work
-taskID: 3 || Event task || isDone: false || netball icg (from: 02 Feb 2025 12:00 am to: 07 Feb 2025 12:00 am)
+taskID: 1 || boo.task.Event boo.task || isDone: false || training (from: 20 Jan 2023 2:00 pm to: 20 Jan 2023 2:00 pm)
+taskID: 2 || boo.task.Todo boo.task || isDone: true || work
+taskID: 3 || boo.task.Event boo.task || isDone: false || netball icg (from: 02 Feb 2025 12:00 am to: 07 Feb 2025 12:00 am)

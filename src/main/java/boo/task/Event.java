@@ -1,3 +1,7 @@
+package boo.task;
+
+import boo.misc.BooException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +33,7 @@ public class Event extends Task {
 
             // Ensure that 'to' is not before 'from'
             if (this.to.isBefore(this.from)) {
-                throw new BooException("Oops! The 'to' time cannot be before the 'from' time. Please enter the timing again!\n");
+                throw new BooException("Oops! The 'to' time cannot be before the 'from' time.\nPlease enter the timing again!\n");
             }
 
         } catch (DateTimeParseException e) {

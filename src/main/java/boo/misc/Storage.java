@@ -1,3 +1,10 @@
+package boo.misc;
+
+import boo.task.Deadline;
+import boo.task.Event;
+import boo.task.Task;
+import boo.task.Todo;
+
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,12 +31,12 @@ public class Storage {
                 int taskId = entry.getKey();
                 Task task = entry.getValue();
 
-                // Start building the task string
+
                 String taskString = "taskID: " + taskId + " || " + task.getClass().getSimpleName() + " task || ";
-                taskString += "isDone: " + task.isDone + " || "; // Assuming Task has isDone() method
+                taskString += "isDone: " + task.isDone() + " || ";
 
                 // Handle the task description based on its type
-                String description = task.description;  // Assuming Task has a getDescription() method
+                String description = task.getDescription();
                 if (task instanceof Deadline) {
                     Deadline deadlineTask = (Deadline) task;
                     taskString += description + " (by: " + deadlineTask.getBy() + ")";

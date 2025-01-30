@@ -1,3 +1,9 @@
+package boo;
+
+import boo.misc.BooException;
+import boo.misc.Parser;
+import boo.misc.Ui;
+import boo.task.TaskList;
 
 import java.util.Scanner;
 

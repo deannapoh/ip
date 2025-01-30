@@ -1,3 +1,6 @@
+package boo.misc;
+
+import boo.task.Task;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +46,7 @@ public class Ui {
 
     public void printTaskHistory(HashMap<Integer, Task> taskMap) {
         if (taskMap.isEmpty()) {
-            printMessage("Yay! You currently have no tasks :) \n");
+            printMessage("Yay! You currently have no tasks :)\nBoo couldn't be prouder <3\n");
         } else {
             String msg = "Here are the tasks in your list:\n";
             for (Map.Entry<Integer, Task> entry : taskMap.entrySet()) {
