@@ -15,13 +15,19 @@ public class Parser {
         this.ui = ui;
     }
 
+    /**
+     * Returns true if command is bye or Bye.
+     * If the command is anything else, false is returned.
+     *
+     * @param input String input by the user.
+     * @return Boolean to represent if command is 'bye'.
+     */
     public boolean parseCommand(String input) throws BooException {
         // Exit if user types "bye"
         if (input.equalsIgnoreCase("bye")) {
             ui.printGoodbyeMessage();
             return true;
         }
-
         if (input.equalsIgnoreCase("list")) {
             ui.printTaskHistory(taskList.getTaskMap());
         } else if (input.toLowerCase().startsWith("mark")) {
@@ -36,6 +42,14 @@ public class Parser {
         return false;
     }
 
+    /**
+     * Returns type of task that user inputs.
+     * If user types an invalid input, an exception is thrown and an error message is shown.
+     *
+     * @param message String input by user.
+     * @return Task object that user inputs.
+     * @throws BooException If input by user is incomplete or if user types an invalid input.
+     */
     private Task parseTask(String message) throws BooException {
         Task task;
 
@@ -44,11 +58,13 @@ public class Parser {
             try {
                 String description = message.substring(5).trim();
                 if (description.isEmpty()) {
-                    throw new BooException("Oops! Boo needs to know what todo task to add to the list!\nPlease add a description of the todo task so Boo can help you!\n");
+                    throw new BooException("Oops! Boo needs to know what todo task to add to the list!\n"
+                            + "Please add a description of the todo task so Boo can help you!\n");
                 }
                 return new Todo(description);
             } catch (StringIndexOutOfBoundsException e) {
-                throw new BooException("Oops! Boo needs to know what todo task to add to the list!\nPlease add a description of the todo task so Boo can help you!\n");
+                throw new BooException("Oops! Boo needs to know what todo task to add to the list!\n"
+                        + "Please add a description of the todo task so Boo can help you!\n");
             }
 
             // Create new deadline task
@@ -59,20 +75,24 @@ public class Parser {
 
                 // Check if there is a description
                 if (description.isEmpty()) {
-                    throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\nPlease add a description of the deadline task so Boo can help you!\n");
+                    throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\n"
+                            + "Please add a description of the deadline task so Boo can help you!\n");
                 }
 
                 // Check if '/by' date is provided
                 String by = details[1].trim();
                 if (by.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
+                    throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\n"
+                            + "Please provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
                 }
 
                 task = new Deadline(description, by);
             } catch (StringIndexOutOfBoundsException e) {
-                throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\nPlease add a description of the deadline task so Boo can help you!\n");
+                throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\n"
+                        + "Please add a description of the deadline task so Boo can help you!\n");
             } catch (IndexOutOfBoundsException e) {
-                throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
+                throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\n"
+                        + "Please provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
             }
 
             // Create new event task
@@ -82,36 +102,47 @@ public class Parser {
                 String description = details[0].trim();
                 // Check if there is a description
                 if (description.isEmpty()) {
-                    throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
+                    throw new BooException("Oops! Boo needs to know what event to add to the list!\n"
+                            + "Please add a description of the event so Boo can help you!\n");
                 }
 
                 // Check if '/from' date is provided
                 String from = details[1].trim();
                 if (from.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
+                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\n"
+                            + "Please provide a '/from' time, in the format of: "
+                            + "/from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
 
                 // Check if '/to' date is provided
                 String to = details[2].trim();
                 if (to.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
+                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\n"
+                            + "Please provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
 
                 if (description.isEmpty()) {
-                    throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
+                    throw new BooException("Oops! Boo needs to know what event to add to the list!\n"
+                            + "Please add a description of the event so Boo can help you!\n");
                 }
                 if (from.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
+                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\n"
+                            + "Please provide a '/from' time, in the format of: "
+                            + "/from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
                 if (to.isEmpty()) {
-                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
+                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\n"
+                            + "Please provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
 
                 task = new Event(description, from, to);
             } catch (StringIndexOutOfBoundsException e) {
-                throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
+                throw new BooException("Oops! Boo needs to know what event to add to the list!\n"
+                        + "Please add a description of the event so Boo can help you!\n");
             } catch (ArrayIndexOutOfBoundsException e) {
-                throw new BooException("Oops! Boo needs both '/from' and '/to' times for the event task!\nPlease provide both times, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy ) /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
+                throw new BooException("Oops! Boo needs both '/from' and '/to' times for the event task!\n"
+                        + "Please provide both times, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy ) "
+                        + "/to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
             }
         } else {
             throw new BooException("Oops, Boo does not understand what you mean :(\n"
