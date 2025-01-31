@@ -4,13 +4,14 @@ package boo.task;
 import boo.misc.BooException;
 import boo.misc.StorageStub;
 import boo.misc.UiStub;
+
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Used to test methods in the TaskList class.
+ */
 public class TaskListTest {
 
     /**

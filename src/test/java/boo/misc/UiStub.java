@@ -2,8 +2,18 @@ package boo.misc;
 
 import boo.task.Task;
 
+/**
+ * Represents a simple implementation of the Ui class that is used for unit testing.
+ */
 public class UiStub extends Ui {
 
+    /**
+     * Mock printRemovedTask method.
+     * Same message is always printed.
+     *
+     * @param taskId ID of the task that was removed.
+     * @param task Task that was removed.
+     */
     @Override
     public void printRemovedTask(int taskId, Task task) {
         String msg = "____________________________________________________________\n"

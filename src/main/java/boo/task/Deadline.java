@@ -7,10 +7,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents a Deadline task.
+ * A deadline task has a description, an end date and a completion status.
+ */
 public class Deadline extends Task {
-
     protected LocalDateTime by;
 
+    /**
+     * Constructs a Deadline task.
+     *
+     * @param description Description of the Deadline task.
+     * @param by Date and/or timing that the task is due, i.e. the deadline of the task.
+     * @throws BooException If user types a date that was not in the format: dd/MM/yyy or dd/MM/yyy HHmm.
+     */
     public Deadline(String description, String by) throws BooException {
         super(description);
         try {
@@ -31,7 +41,7 @@ public class Deadline extends Task {
     /**
      * Returns a string representation of the task.
      *
-     * @return A formatted string showing the task's status and type.
+     * @return A formatted string showing the task type, the task's completion status, and task description.
      */
     @Override
     public String toString() {

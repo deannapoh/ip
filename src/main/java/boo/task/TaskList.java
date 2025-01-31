@@ -2,16 +2,27 @@ package boo.task;
 
 import boo.misc.BooException;
 import boo.misc.Ui;
-
-import java.util.HashMap;
 import boo.misc.Storage;
 
+import java.util.HashMap;
+
+/**
+ * Represents a list of tasks that can be manipulated.
+ * Tasks can be of any type.
+ */
 public class TaskList {
     private HashMap<Integer, Task> tasksMap;
     private Ui ui;
     private int taskId;
     private Storage storage;
 
+    /**
+     * Constructs a list of tasks, in the form of a Hashmap.
+     * Task ID starts at 1 and increases as tasks get added.
+     *
+     * @param storage Storage to store and load the task list in a hard disk.
+     * @param ui Interface that interacts with the user.
+     */
     public TaskList(Storage storage, Ui ui) throws BooException {
         this.tasksMap = new HashMap<Integer, Task>();
         this.storage = storage;
@@ -41,7 +52,7 @@ public class TaskList {
      *
      * @param task Task that is to be added to the task list.
      */
-    public void addTask(Task task) throws BooException{
+    public void addTask(Task task) throws BooException {
         tasksMap.put(taskId, task);
         ui.printAddedTask(taskId, task);
         this.taskId++;
@@ -111,7 +122,6 @@ public class TaskList {
         } catch (NumberFormatException e) {
             throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
         }
-
     }
 
     /**
@@ -139,6 +149,5 @@ public class TaskList {
         } catch (NumberFormatException e) {
             throw new BooException("Oops! Boo needs your task ID to be an integer!\n");
         }
-
     }
 }

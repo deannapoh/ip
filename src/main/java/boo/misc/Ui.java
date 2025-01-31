@@ -1,9 +1,13 @@
 package boo.misc;
 
 import boo.task.Task;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a user interface that is in charge of interacting with the user.
+ */
 public class Ui {
     private static final String LINE = "____________________________________________________________\n";
 
@@ -95,5 +99,4 @@ public class Ui {
             printMessage(msg);
         }
     }
-
 }

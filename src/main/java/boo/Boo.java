@@ -9,7 +9,17 @@ import boo.task.TaskList;
 
 import java.util.Scanner;
 
+/**
+ * Represents the main class of the program.
+ */
 public class Boo {
+
+    /**
+     * Main method of the program.
+     *
+     * @param args Inputs typed by the user.
+     * @throws BooException If there is any problem reading the input.
+     */
     public static void main(String[] args) throws BooException {
         Ui ui = new Ui();
         Storage storage = new Storage("./data/Boo.txt");
@@ -21,7 +31,6 @@ public class Boo {
 
         // Create scanner to read user inputs
         Scanner scanner = new Scanner(System.in);
-
         while (scanner.hasNextLine()) {
             // Read user input
             String input = scanner.nextLine();
@@ -35,6 +44,4 @@ public class Boo {
         }
         scanner.close();
     }
-
-
 }

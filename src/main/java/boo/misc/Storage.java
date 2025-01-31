@@ -5,16 +5,29 @@ import boo.task.Event;
 import boo.task.Task;
 import boo.task.Todo;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileReader;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a class that is in charge of storing and loading the task history into a hard disk.
+ */
 public class Storage {
-    /** Path of file to store the task list */
     private final String filePath;
 
+    /**
+     * Constructs a Storage object that allows the task history to be stored in a hard disk.
+     *
+     * @param filePath Path to the file that the task history will be stored in.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
@@ -62,30 +75,29 @@ public class Storage {
         }
     }
 
-
     /**
      * Returns tasks that were saved in the file prior.
      * If file does not exist or is empty, an empty hashmap is returned.
      *
      * @return Hashmap of all the tasks that were present in the file.
-     * @throws BooException If there was a problem adding the tasks in the file to the hashmap.
+     * @throws BooException If there was a problem loading the tasks in the file to the hashmap.
      */
     public HashMap<Integer, Task> loadTasks() throws BooException {
         HashMap<Integer, Task> taskMap = new HashMap<>();
         File file = new File(filePath);
+
+        // If file does not exist or is empty, return an empty map
         if (!file.exists() || file.length() == 0) {
-            // If file does not exist or is empty, return an empty map
             return taskMap;
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
-            while ((line = reader.readLine()) != null) {
-                // Check if file is empty
-                if (line.trim().isEmpty()) {
-                    // Skip empty lines
-                    continue;
-                }
 
+            // Check if file is empty
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue; // skip empty lines
+                }
                 // Split line by "||"
                 String[] parts = line.split("\\|\\|");
                 if (parts.length < 4) {
@@ -117,9 +129,10 @@ public class Storage {
                         LocalDateTime parsedBy = LocalDateTime.parse(
                                 by, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
                         String newBy = parsedBy.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
+
+                        // Create new Deadline task
                         task = new Deadline(taskDescription, newBy);
                     } else if (type.equals("Event")) {
-
                         // Parsing Event: split by " (from: " and " to: "
                         String[] details = description.split(" \\(from: ");
                         if (details.length < 2) {
@@ -137,11 +150,12 @@ public class Storage {
                         LocalDateTime parsedTo = LocalDateTime.parse(
                                 from, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
                         String newTo = parsedTo.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
+
+                        // Create new Event task
                         task = new Event(taskDescription, newFrom, newTo);
                     } else {
                         throw new BooException("Oh no! Boo could not identify the task type found in file.");
                     }
-
                     // Mark the task as done if necessary
                     if (isDone) {
                         task.setAsDone();
