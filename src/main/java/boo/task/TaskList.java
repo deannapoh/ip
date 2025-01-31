@@ -150,4 +150,35 @@ public class TaskList {
             throw new BooException("Oops! Boo needs your task ID to be an integer!\n");
         }
     }
+
+    /**
+     * Finds tasks that contain a specific keyword.
+     * Prints those tasks that contain that keyword.
+     *
+     * @param input Input that contains the keyword used to find the task.
+     * @throws BooException If no keyword is provided.
+     */
+    public void findTask(String input) throws BooException {
+        try {
+            String keyword = input.substring(4).trim();
+            if (keyword.isEmpty()) {
+                throw new BooException("Oops! Boo needs a keyword to find tasks.\n");
+            }
+            String matchedTask = "Here are the matching tasks in your list:\n";
+            int numMatches = 0;
+            for (int taskId : tasksMap.keySet()) {
+                Task task = tasksMap.get(taskId);
+                if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                    numMatches++;
+                    matchedTask += numMatches + ". " + task + "\n";
+                }
+            }
+            if (numMatches == 0) {
+                matchedTask = "Oh no! Boo could not find any tasks that contain that keyword :(\n";
+            }
+            ui.printMessage(matchedTask);
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new BooException("Oops! Boo needs a keyword to find tasks.\n");
+        }
+    }
 }

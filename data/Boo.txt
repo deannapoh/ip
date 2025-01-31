@@ -1,3 +1,5 @@
-taskID: 1 || Todo task || isDone: false || assignment 2
-taskID: 2 || Todo task || isDone: false || work
+taskID: 1 || Todo task || isDone: true || assignment 2
+taskID: 2 || Todo task || isDone: true || work
 taskID: 3 || Todo task || isDone: false || event
+taskID: 4 || Event task || isDone: true || work (from: 20 Feb 2020 12:00 am to: 21 Feb 2020 12:00 am)
+taskID: 5 || Deadline task || isDone: true || work (by: 04 Feb 3030 12:00 am)
