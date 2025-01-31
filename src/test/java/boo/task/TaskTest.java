@@ -14,11 +14,11 @@ public class TaskTest {
      * Tests if the method markAsDone works.
      */
     @Test
-    public void markAsDoneTest() {
+    public void setAsDoneTest() {
         Task task = new Task("Homework");
         assertFalse(task.isDone(), "Task should not initially be marked as done");
         assertEquals("[ ] Homework", task.toString());
-        task.markAsDone();
+        task.setAsDone();
         assertTrue(task.isDone(), "Task should be marked as done");
         assertEquals("[X] Homework", task.toString());
     }
@@ -27,12 +27,12 @@ public class TaskTest {
      * Tests if the method markAsNotDone works.
      */
     @Test
-    public void markAsNotDoneTest() {
+    public void setAsNotDoneTest() {
         Task task = new Task("Homework");
-        task.markAsDone();
+        task.setAsDone();
         assertTrue(task.isDone(), "Task should be marked as done");
         assertEquals("[X] Homework", task.toString());
-        task.markAsNotDone();
+        task.setAsNotDone();
         assertFalse(task.isDone(), "Task is no longer marked as done");
         assertEquals("[ ] Homework", task.toString());
     }

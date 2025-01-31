@@ -23,7 +23,8 @@ public class Deadline extends Task {
                 this.by = LocalDate.parse(by, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay();
             }
         } catch (DateTimeParseException e) {
-            throw new BooException("Oops! You have used the incorrect date format!\nPlease try again with the format dd/MM/yyyy or dd/MM/yyyy HHmm!\n");
+            throw new BooException("Oops! You have used the incorrect date format!\n"
+                    + "Please try again with the format dd/MM/yyyy or dd/MM/yyyy HHmm!\n");
         }
     }
 
@@ -34,7 +35,8 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";
+        return "[D]" + super.toString()
+                + " (by: " + by.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";
     }
 
     public String getBy() {

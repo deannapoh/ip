@@ -33,11 +33,13 @@ public class Event extends Task {
 
             // Ensure that 'to' is not before 'from'
             if (this.to.isBefore(this.from)) {
-                throw new BooException("Oops! The 'to' time cannot be before the 'from' time.\nPlease enter the timing again!\n");
+                throw new BooException("Oops! The 'to' time cannot be before the 'from' time.\n"
+                        + "Please enter the timing again!\n");
             }
 
         } catch (DateTimeParseException e) {
-            throw new BooException("Oops! You have used the incorrect date format!\nPlease try again with the format dd/MM/yyyy or dd/MM/yyyy HHmm!\n");
+            throw new BooException("Oops! You have used the incorrect date format!\n"
+                    + "Please try again with the format dd/MM/yyyy or dd/MM/yyyy HHmm!\n");
         }
 
     }
@@ -49,7 +51,9 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + " to: " + to.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";
+        return "[E]" + super.toString()
+                + " (from: " + from.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"))
+                + " to: " + to.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";
     }
 
     public String getFrom() {

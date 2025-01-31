@@ -7,9 +7,7 @@ import boo.task.TaskList;
 import boo.task.Todo;
 
 public class Parser {
-    /** List of tasks */
     private TaskList taskList;
-    /** Ui that is in charge of interactions between user and chatbot */
     private Ui ui;
 
     public Parser(TaskList taskList, Ui ui) {
@@ -17,13 +15,6 @@ public class Parser {
         this.ui = ui;
     }
 
-    /**
-     * Returns true if command is bye or Bye.
-     * If the command is anything else, false is returned.
-     *
-     * @param input String input by the user.
-     * @return Boolean to represent if command is 'bye'.
-     */
     public boolean parseCommand(String input) throws BooException {
         // Exit if user types "bye"
         if (input.equalsIgnoreCase("bye")) {
@@ -45,14 +36,6 @@ public class Parser {
         return false;
     }
 
-    /**
-     * Returns type of task that user inputs.
-     * If user types an invalid input, an exception is thrown and an error message is shown.
-     *
-     * @param message String input by user.
-     * @return Task object that user inputs.
-     * @throws BooException If input by user is incomplete or if user types an invalid input.
-     */
     private Task parseTask(String message) throws BooException {
         Task task;
 
@@ -68,7 +51,7 @@ public class Parser {
                 throw new BooException("Oops! Boo needs to know what todo task to add to the list!\nPlease add a description of the todo task so Boo can help you!\n");
             }
 
-        // Create new deadline task
+            // Create new deadline task
         } else if (message.toLowerCase().startsWith("deadline")) {
             try {
                 String[] details = message.substring(9).split("/by");
@@ -92,7 +75,7 @@ public class Parser {
                 throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\nPlease provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
             }
 
-        // Create new event task
+            // Create new event task
         } else if (message.toLowerCase().startsWith("event")) {
             try {
                 String[] details = message.substring(6).split("/from|/to");
@@ -110,6 +93,16 @@ public class Parser {
 
                 // Check if '/to' date is provided
                 String to = details[2].trim();
+                if (to.isEmpty()) {
+                    throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
+                }
+
+                if (description.isEmpty()) {
+                    throw new BooException("Oops! Boo needs to know what event to add to the list!\nPlease add a description of the event so Boo can help you!\n");
+                }
+                if (from.isEmpty()) {
+                    throw new BooException("Oops! Boo needs a '/from' time for the event task!\nPlease provide a '/from' time, in the format of: /from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
+                }
                 if (to.isEmpty()) {
                     throw new BooException("Oops! Boo needs a '/to' time for the event task!\nPlease provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
