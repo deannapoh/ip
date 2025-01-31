@@ -44,6 +44,8 @@ public class Parser {
             taskList.markAsNotDone(input);
         } else if (input.toLowerCase().startsWith("delete")) {
             taskList.deleteTask(input);
+        } else if (input.toLowerCase().startsWith("find")) {
+            taskList.findTask(input);
         } else {
             taskList.addTask(parseTask(input));
         }
