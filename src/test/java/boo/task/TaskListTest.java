@@ -16,6 +16,7 @@ public class TaskListTest {
     @Test
     public void deleteTaskTest() throws BooException {
         TaskList taskList = new TaskList(new StorageStub(), new UiStub());
+
         // Test with non-integer number
         Exception exception = assertThrows(BooException.class, () -> taskList.deleteTask("delete 1.05"));
         String expectedMessage = "____________________________________________________________\n"
@@ -26,7 +27,8 @@ public class TaskListTest {
         // Test with no description
         Exception exception2 = assertThrows(BooException.class, () -> taskList.deleteTask("delete"));
         String expectedMessage2 = "____________________________________________________________\n"
-                + "Oops! Boo needs you to specify a task ID to mark it as done.\nPlease try again so that Boo can help :)\n"
+                + "Oops! Boo needs you to specify a task ID to mark it as done.\n"
+                + "Please try again so that Boo can help :)\n"
                 + "____________________________________________________________\n";
         assertEquals(expectedMessage, exception.getMessage());
 

@@ -23,15 +23,15 @@ public class Storage {
     public void saveTask(HashMap<Integer, Task> taskMap) throws BooException {
         try {
             File file = new File(filePath);
+
             // Create directories if they do not exist
             file.getParentFile().mkdirs();
+
             // Write into the file
             FileWriter writer = new FileWriter(file);
             for (Map.Entry<Integer, Task> entry : taskMap.entrySet()) {
                 int taskId = entry.getKey();
                 Task task = entry.getValue();
-
-
                 String taskString = "taskID: " + taskId + " || " + task.getClass().getSimpleName() + " task || ";
                 taskString += "isDone: " + task.isDone() + " || ";
 
@@ -52,7 +52,7 @@ public class Storage {
             }
             writer.close();
         } catch (IOException e) {
-            throw new BooException("Oops! Boo couldn't save your tasks :(");
+            throw new BooException("Oops! Boo couldn't save your tasks :(\n");
         }
     }
 
@@ -62,15 +62,12 @@ public class Storage {
     public HashMap<Integer, Task> loadTasks() throws BooException {
         HashMap<Integer, Task> taskMap = new HashMap<>();
         File file = new File(filePath);
-
         if (!file.exists() || file.length() == 0) {
             // If file does not exist or is empty, return an empty map
             return taskMap;
         }
-
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
-
             while ((line = reader.readLine()) != null) {
                 // Check if file is empty
                 if (line.trim().isEmpty()) {
@@ -80,13 +77,11 @@ public class Storage {
 
                 // Split line by "||"
                 String[] parts = line.split("\\|\\|");
-
                 if (parts.length < 4) {
-                    throw new BooException("Invalid task format in file. Expected 'taskID || taskType || isDone || description'.");
+                    throw new BooException("Invalid task format in file.\n"
+                            + "Expected 'taskID || taskType || isDone || description'.");
                 }
-
                 try {
-
                     // Extract taskID, type, isDone, and description
                     int taskId = Integer.parseInt(parts[0].split(":")[1].trim());
                     String type = parts[1].split("task")[0].trim();
@@ -98,6 +93,7 @@ public class Storage {
                     if (type.equals("Todo")) {
                         task = new Todo(description);
                     } else if (type.equals("Deadline")) {
+
                         // Parsing Deadline: split by " (by: "
                         String[] details = description.split(" \\(by: ");
                         if (details.length < 2) {
@@ -105,11 +101,14 @@ public class Storage {
                         }
                         String taskDescription = details[0].trim();
                         String by = details[1].replace(")", "").trim();
+
                         // Convert "dd MMM yyy h:mm a" to "dd/MMM/yyy hhmm"
-                        LocalDateTime parsedBy = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+                        LocalDateTime parsedBy = LocalDateTime.parse(
+                                by, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
                         String newBy = parsedBy.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
                         task = new Deadline(taskDescription, newBy);
                     } else if (type.equals("Event")) {
+
                         // Parsing Event: split by " (from: " and " to: "
                         String[] details = description.split(" \\(from: ");
                         if (details.length < 2) {
@@ -121,9 +120,11 @@ public class Storage {
                         String to = fromTo[1].split("\\)")[0].trim();
 
                         // Convert "dd MMM yyy h:mm a" to "dd/MMM/yyy hhmm"
-                        LocalDateTime parsedFrom = LocalDateTime.parse(from, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+                        LocalDateTime parsedFrom = LocalDateTime.parse(
+                                from, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
                         String newFrom = parsedFrom.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
-                        LocalDateTime parsedTo = LocalDateTime.parse(from, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+                        LocalDateTime parsedTo = LocalDateTime.parse(
+                                from, DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
                         String newTo = parsedTo.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
                         task = new Event(taskDescription, newFrom, newTo);
                     } else {
@@ -132,11 +133,9 @@ public class Storage {
 
                     // Mark the task as done if necessary
                     if (isDone) {
-                        task.markAsDone();
+                        task.setAsDone();
                     }
-
                     taskMap.put(taskId, task);
-
                 } catch (Exception e) {
                     throw new BooException("Error! Boo could not parse task: " + line);
                 }
@@ -144,7 +143,6 @@ public class Storage {
         } catch (IOException e) {
             throw new BooException("Oops! Boo couldn't load your tasks :(");
         }
-
         return taskMap;
     }
 

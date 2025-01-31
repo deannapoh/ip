@@ -7,34 +7,34 @@ import java.util.HashMap;
 import boo.misc.Storage;
 
 public class TaskList {
-    private HashMap<Integer, Task> taskMap;
+    private HashMap<Integer, Task> tasksMap;
     private Ui ui;
     private int taskId;
     private Storage storage;
 
     public TaskList(Storage storage, Ui ui) throws BooException {
-        this.taskMap = new HashMap<Integer, Task>();
+        this.tasksMap = new HashMap<Integer, Task>();
         this.storage = storage;
-        this.taskMap = storage.loadTasks();
+        this.tasksMap = storage.loadTasks();
         this.ui = ui;
-        if (!taskMap.isEmpty()) {
-            this.taskId = taskMap.size() + 1;
+        if (!tasksMap.isEmpty()) {
+            this.taskId = tasksMap.size() + 1;
         } else {
             this.taskId = 1;
         }
     }
 
     private void save() throws BooException {
-        storage.saveTask(taskMap);
+        storage.saveTask(tasksMap);
     }
 
     public HashMap<Integer, Task> getTaskMap() {
-        return this.taskMap;
+        return this.tasksMap;
     }
 
     // Add task to the list and print the added task
     public void addTask(Task task) throws BooException{
-        taskMap.put(taskId, task);
+        tasksMap.put(taskId, task);
         ui.printAddedTask(taskId, task);
         this.taskId++;
         save();
@@ -43,27 +43,29 @@ public class TaskList {
     public void deleteTask(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
-            Task task = taskMap.get(taskId);
+            Task task = tasksMap.get(taskId);
             if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
+                        + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
+                        + tasksMap.size() + " tasks in your task list\n");
             }
-            this.taskMap.remove(taskId);
+            this.tasksMap.remove(taskId);
 
-            //shift the remaining tasks
+            //Shift the remaining tasks
             for (int i = taskId + 1; i <= this.taskId - 1; i++) {
-                Task shiftedTask = taskMap.get(i);
+                Task shiftedTask = tasksMap.get(i);
                 if (shiftedTask != null) {
-                    taskMap.put(i - 1, shiftedTask);
-                    taskMap.remove(i);
+                    tasksMap.put(i - 1, shiftedTask);
+                    tasksMap.remove(i);
                 }
             }
-            // total taskID - 1 since one task was deleted
+            // Total taskID - 1 since one task was deleted
             this.taskId--;
             save();
             ui.printRemovedTask(this.taskId, task);
-
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to delete it.\nPlease try again so that Boo can help :)\n");
+            throw new BooException("Oops! Boo needs you to specify a task ID to delete it.\n"
+                    + "Please try again so that Boo can help :)\n");
         } catch (NumberFormatException e) {
             throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
         }
@@ -73,15 +75,18 @@ public class TaskList {
     public void markAsDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
-            Task task = taskMap.get(taskId);
+            Task task = tasksMap.get(taskId);
             if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
+                        + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
+                        + tasksMap.size() + " tasks in your task list\n");
             }
-            task.markAsDone();
+            task.setAsDone();
             save();
             ui.printMarkedTask(task);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\nPlease try again so that Boo can help :)\n");
+            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\n"
+                    + "Please try again so that Boo can help :)\n");
         } catch (NumberFormatException e) {
             throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
         }
@@ -92,16 +97,18 @@ public class TaskList {
     public void markAsNotDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
-            Task task = taskMap.get(taskId);
+            Task task = tasksMap.get(taskId);
             if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\nMaybe you mixed up the task IDS? Please try again!\nThere are currently " + taskMap.size() + " tasks in your task list\n");
+                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
+                        + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
+                        + tasksMap.size() + " tasks in your task list\n");
             }
-            task.markAsNotDone();
+            task.setAsNotDone();
             save();
             ui.printUnmarkedTask(task);
-
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\nPlease try again so that Boo can help :)\n");
+            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\n"
+                    + "Please try again so that Boo can help :)\n");
         } catch (NumberFormatException e) {
             throw new BooException("Oops! Boo needs your task ID to be an integer!\n");
         }

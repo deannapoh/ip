@@ -25,7 +25,6 @@ public class Boo {
         while (scanner.hasNextLine()) {
             // Read user input
             String input = scanner.nextLine();
-
             try{
                 if (parser.parseCommand(input)) {
                     break;
