@@ -10,6 +10,11 @@ public class Task {
 
     }
 
+    /**
+     * Returns icon that represents if task is marked.
+     *
+     * @return String that represents if task is marked.
+     */
     public String getStatusIcon() {
         return (this.isDone ? "X" : " ");
     }
@@ -30,6 +35,11 @@ public class Task {
         return this.isDone;
     }
 
+    /**
+     * Returns a string representation of the task.
+     *
+     * @return A formatted string showing the task's status.
+     */
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
     }

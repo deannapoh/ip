@@ -1,5 +1,6 @@
 package boo.task;
 
+import boo.misc.BooException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TaskTest {
     Task task = new Task("Homework");
 
+    /**
+     * Tests if the method markAsDone works.
+     */
     @Test
     public void markAsDoneTest() {
         Task task = new Task("Homework");
@@ -19,6 +23,9 @@ public class TaskTest {
         assertEquals("[X] Homework", task.toString());
     }
 
+    /**
+     * Tests if the method markAsNotDone works.
+     */
     @Test
     public void markAsNotDoneTest() {
         Task task = new Task("Homework");

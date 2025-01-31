@@ -13,6 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TaskListTest {
 
+    /**
+     * Tests if the method deleteTask works
+     *
+     * @throws BooException If task ID is not an integer or if task ID cannot be found.
+     */
     @Test
     public void deleteTaskTest() throws BooException {
         TaskList taskList = new TaskList(new StorageStub(), new UiStub());

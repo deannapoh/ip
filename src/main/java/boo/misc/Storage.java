@@ -12,14 +12,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Storage {
+    /** Path of file to store the task list */
     private final String filePath;
 
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
-    // Save task in file
-    // Save task in file
+    /**
+     * Saves task history into a file.
+     * If a file has not been created, it creates a file for the task history to be saved into.
+     *
+     * @param taskMap Hashmap that contains a list of the task IDs and tasks.
+     * @throws BooException If tasks were not saved successfully.
+     */
     public void saveTask(HashMap<Integer, Task> taskMap) throws BooException {
         try {
             File file = new File(filePath);
@@ -57,8 +63,13 @@ public class Storage {
     }
 
 
-    // Read tasks from the file
-    // Returns HashMap of tasks in file
+    /**
+     * Returns tasks that were saved in the file prior.
+     * If file does not exist or is empty, an empty hashmap is returned.
+     *
+     * @return Hashmap of all the tasks that were present in the file.
+     * @throws BooException If there was a problem adding the tasks in the file to the hashmap.
+     */
     public HashMap<Integer, Task> loadTasks() throws BooException {
         HashMap<Integer, Task> taskMap = new HashMap<>();
         File file = new File(filePath);

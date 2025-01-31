@@ -42,6 +42,11 @@ public class Event extends Task {
 
     }
 
+    /**
+     * Returns a string representation of the task.
+     *
+     * @return A formatted string showing the task's status and type.
+     */
     @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: " + from.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + " to: " + to.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";
