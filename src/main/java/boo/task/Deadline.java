@@ -27,6 +27,11 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Returns a string representation of the task.
+     *
+     * @return A formatted string showing the task's status and type.
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";

@@ -24,6 +24,9 @@ public class TaskList {
         }
     }
 
+    /**
+     * Saves the task list into a designated hard disk.
+     */
     private void save() throws BooException {
         storage.saveTask(taskMap);
     }
@@ -32,7 +35,12 @@ public class TaskList {
         return this.taskMap;
     }
 
-    // Add task to the list and print the added task
+    /**
+     * Adds a specified task to the task list.
+     * Prints and saves the added task.
+     *
+     * @param task Task that is to be added to the task list.
+     */
     public void addTask(Task task) throws BooException{
         taskMap.put(taskId, task);
         ui.printAddedTask(taskId, task);
@@ -40,6 +48,13 @@ public class TaskList {
         save();
     }
 
+    /**
+     * Deletes a specified task from the task list.
+     * Prints the deleted task.
+     *
+     * @param input Input provided by the user to pinpoint the task to be deleted.
+     * @throws BooException If task ID could not be found or if task ID is not an integer.
+     */
     public void deleteTask(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
@@ -69,7 +84,13 @@ public class TaskList {
         }
     }
 
-    // Mark task as done and print out marked task
+    /**
+     * Marks a specified task as done.
+     * Prints the marked task.
+     *
+     * @param input Input provided by the user to pinpoint the task to be marked as done.
+     * @throws BooException If task ID could not be found or if task ID is not an integer.
+     */
     public void markAsDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
@@ -88,7 +109,13 @@ public class TaskList {
 
     }
 
-    // mark task as undone and print out unmarked task
+    /**
+     * Unmarks a specified task.
+     * Prints the unmarked task.
+     *
+     * @param input Input provided by the user to pinpoint the task to be marked as not done.
+     * @throws BooException If task ID could not be found or if task ID is not an integer.
+     */
     public void markAsNotDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
