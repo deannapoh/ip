@@ -25,34 +25,6 @@ public class Parser {
     }
 
     /**
-     * Returns true if command is bye or Bye.
-     * If the command is anything else, false is returned.
-     *
-     * @param input String input by the user.
-     * @return Boolean to represent if command is 'bye'.
-     */
-    public boolean parseCommand(String input) throws BooException {
-        if (input.equalsIgnoreCase("bye")) {
-            ui.printGoodbyeMessage();
-            return true;
-        }
-        if (input.equalsIgnoreCase("list")) {
-            ui.printTaskHistory(taskList.getTaskMap());
-        } else if (input.toLowerCase().startsWith("mark")) {
-            taskList.markAsDone(input);
-        } else if (input.toLowerCase().startsWith("unmark")) {
-            taskList.markAsNotDone(input);
-        } else if (input.toLowerCase().startsWith("delete")) {
-            taskList.deleteTask(input);
-        } else if (input.toLowerCase().startsWith("find")) {
-            taskList.findTask(input);
-        } else {
-            taskList.addTask(parseTask(input));
-        }
-        return false;
-    }
-
-    /**
      * Returns type of task that user inputs.
      * If user types an invalid input, an exception is thrown and an error message is shown.
      *
@@ -60,7 +32,7 @@ public class Parser {
      * @return Task object that user inputs.
      * @throws BooException If input by user is incomplete or if user types an invalid input.
      */
-    private Task parseTask(String message) throws BooException {
+    public static Task parseTask(String message) throws BooException {
         Task task;
 
         // Create new todo task

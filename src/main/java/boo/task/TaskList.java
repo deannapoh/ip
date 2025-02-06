@@ -52,11 +52,11 @@ public class TaskList {
      *
      * @param task Task that is to be added to the task list.
      */
-    public void addTask(Task task) throws BooException {
+    public String addTask(Task task) throws BooException {
         tasksMap.put(taskId, task);
-        ui.printAddedTask(taskId, task);
         this.taskId++;
         save();
+        return ui.printAddedTask(taskId, task);
     }
 
     /**
@@ -66,7 +66,7 @@ public class TaskList {
      * @param input Input provided by the user to pinpoint the task to be deleted.
      * @throws BooException If task ID could not be found or if task ID is not an integer.
      */
-    public void deleteTask(String input) throws BooException {
+    public String deleteTask(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = tasksMap.get(taskId);
@@ -88,7 +88,7 @@ public class TaskList {
             // Total taskID - 1 since one task was deleted
             this.taskId--;
             save();
-            ui.printRemovedTask(this.taskId, task);
+            return ui.printRemovedTask(this.taskId, task);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new BooException("Oops! Boo needs you to specify a task ID to delete it.\n"
                     + "Please try again so that Boo can help :)\n");
@@ -104,7 +104,7 @@ public class TaskList {
      * @param input Input provided by the user to pinpoint the task to be marked as done.
      * @throws BooException If task ID could not be found or if task ID is not an integer.
      */
-    public void markAsDone(String input) throws BooException {
+    public String markAsDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = tasksMap.get(taskId);
@@ -115,7 +115,7 @@ public class TaskList {
             }
             task.setAsDone();
             save();
-            ui.printMarkedTask(task);
+            return ui.printMarkedTask(task);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\n"
                     + "Please try again so that Boo can help :)\n");
@@ -131,7 +131,7 @@ public class TaskList {
      * @param input Input provided by the user to pinpoint the task to be marked as not done.
      * @throws BooException If task ID could not be found or if task ID is not an integer.
      */
-    public void markAsNotDone(String input) throws BooException {
+    public String markAsNotDone(String input) throws BooException {
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = tasksMap.get(taskId);
@@ -142,7 +142,7 @@ public class TaskList {
             }
             task.setAsNotDone();
             save();
-            ui.printUnmarkedTask(task);
+            return ui.printUnmarkedTask(task);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\n"
                     + "Please try again so that Boo can help :)\n");
@@ -158,7 +158,7 @@ public class TaskList {
      * @param input Input that contains the keyword used to find the task.
      * @throws BooException If no keyword is provided.
      */
-    public void findTask(String input) throws BooException {
+    public String findTask(String input) throws BooException {
         try {
             String keyword = input.substring(4).trim();
             if (keyword.isEmpty()) {
@@ -176,7 +176,7 @@ public class TaskList {
             if (numMatches == 0) {
                 matchedTask = "Oh no! Boo could not find any tasks that contain that keyword :(\n";
             }
-            ui.printMessage(matchedTask);
+            return ui.printMessage(matchedTask);
         } catch (StringIndexOutOfBoundsException e) {
             throw new BooException("Oops! Boo needs a keyword to find tasks.\n");
         }
