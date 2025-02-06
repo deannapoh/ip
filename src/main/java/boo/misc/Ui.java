@@ -16,23 +16,23 @@ public class Ui {
      *
      * @param msg Message that chatbot outputs.
      */
-    public void printMessage(String msg) {
+    public String printMessage(String msg) {
         String message = LINE + msg + LINE;
-        System.out.println(message);
+        return message;
     }
 
     /**
      * Prints the greeting of the Chatbot when it first starts up.
      */
-    public void printGreeting() {
-        printMessage("Hello! I'm Boo\n" + "What can I do for you?\n");
+    public String printGreeting() {
+        return LINE + "Hello! I'm Boo\n" + "What can I do for you?\n" + LINE;
     }
 
     /**
      * Prints the goodbye message of the Chatbot when it terminates.
      */
-    public void printGoodbyeMessage() {
-        printMessage("Bye. Hope to see you again soon!\n");
+    public String printGoodbyeMessage() {
+        return LINE + "Bye. Hope to see you again soon!\n" + LINE;
     }
 
     /**
@@ -41,10 +41,10 @@ public class Ui {
      * @param taskId ID of the task that was just added.
      * @param task Task that was added.
      */
-    public void printAddedTask(int taskId, Task task) {
+    public String printAddedTask(int taskId, Task task) {
         String msg = "Got it. Boo has added this task:\n" + "  " + task.toString() + "\n"
-                + "Now you have " + taskId + " tasks in the list.\n";
-        printMessage(msg);
+                + "Now you have " + (taskId-1) + " tasks in the list.\n";
+        return LINE + msg + LINE;
     }
 
     /**
@@ -53,10 +53,10 @@ public class Ui {
      * @param taskId ID of the task that was just removed.
      * @param task Task that was removed.
      */
-    public void printRemovedTask(int taskId, Task task) {
+    public String printRemovedTask(int taskId, Task task) {
         String msg = "Noted! Boo has removed this task:\n "
                 + task.toString() + "\n" + "Now you have " + (taskId-1) + " tasks in the list.\n";
-        printMessage(msg);
+        return LINE + msg + LINE;
     }
 
     /**
@@ -64,10 +64,10 @@ public class Ui {
      *
      * @param task Task that was marked as done.
      */
-    public void printMarkedTask(Task task) {
+    public String printMarkedTask(Task task) {
         String msg = "Nice! Boo has marked this task as done:\n "
                 + task.toString() + "\n";
-        printMessage(msg);
+        return LINE + msg + LINE;
     }
 
     /**
@@ -75,10 +75,10 @@ public class Ui {
      *
      * @param task Task that was unmarked.
      */
-    public void printUnmarkedTask(Task task) {
+    public String printUnmarkedTask(Task task) {
         String msg = "OK, Boo has marked this task as not done yet:\n "
                 + task.toString() + "\n";
-        printMessage(msg);
+        return LINE + msg + LINE;
     }
 
     /**
@@ -86,9 +86,9 @@ public class Ui {
      *
      * @param taskMap HashMap of the task history.
      */
-    public void printTaskHistory(HashMap<Integer, Task> taskMap) {
+    public String printTaskHistory(HashMap<Integer, Task> taskMap) {
         if (taskMap.isEmpty()) {
-            printMessage("Yay! You currently have no tasks :)\nBoo couldn't be prouder <3\n");
+            return "Yay! You currently have no tasks :)\nBoo couldn't be prouder <3\n";
         } else {
             String msg = "Here are the tasks in your list:\n";
             for (Map.Entry<Integer, Task> entry : taskMap.entrySet()) {
@@ -96,7 +96,7 @@ public class Ui {
                 Task task = entry.getValue();
                 msg += taskId + ". " + task.toString() + "\n";
             }
-            printMessage(msg);
+            return LINE + msg + LINE;
         }
     }
 }
