@@ -55,7 +55,22 @@ public class Deadline extends Task {
                 + " (by: " + deadlineDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";
     }
 
-    public String getDeadlineDate() {
+    /**
+     * Returns a string representation of the deadline.
+     *
+     * @return A formatted string showing the deadline, in the format dd MMM yyyy h:mm a.
+     */
+    public String getFormattedDeadline() {
         return deadlineDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+    }
+
+    /**
+     * Returns the deadline as a LocalDateTime.
+     *
+     * @return The deadline of the task as a LocalDateTime.
+     */
+    @Override
+    public LocalDateTime getStartDate() {
+        return deadlineDate;
     }
 }

@@ -69,11 +69,31 @@ public class Event extends Task {
                 + " to: " + endTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a")) + ")";
     }
 
-    public String getStartTime() {
+    /**
+     * Returns a string representation of the start time of the event.
+     *
+     *  @return A formatted string showing the start time of the event, in the format dd MMM yyyy h:mm a.
+     */
+    public String getFormattedStartTime() {
         return startTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
     }
 
-    public String getEndTime() {
+    /**
+     * Returns a string representation of the end time of the event.
+     *
+     *  @return A formatted string showing the end time of the event, in the format dd MMM yyyy h:mm a.
+     */
+    public String getFormattedEndTime() {
         return endTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a"));
+    }
+
+    /**
+     * Returns the start time of the event as a LocalDateTime.
+     *
+     *  @return The start time of the event as a LocalDateTime.
+     */
+    @Override
+    public LocalDateTime getStartDate() {
+        return startTime;
     }
 }

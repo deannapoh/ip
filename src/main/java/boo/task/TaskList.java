@@ -5,6 +5,9 @@ import boo.misc.Ui;
 import boo.misc.Storage;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Represents a list of tasks that can be manipulated.
@@ -50,6 +53,7 @@ public class TaskList {
     }
 
     public HashMap<Integer, Task> getTaskMap() {
+        sortTasks();
         return this.tasksMap;
     }
 
@@ -63,6 +67,7 @@ public class TaskList {
         assert task != null : "Task must not be null";
         tasksMap.put(taskId, task);
         this.taskId++;
+        sortTasks();
         save();
         return ui.printAddedTask(taskId, task);
     }
@@ -96,6 +101,7 @@ public class TaskList {
             }
             // Total taskID - 1 since one task was deleted
             this.taskId--;
+            sortTasks();
             save();
             return ui.printRemovedTask(this.taskId, task);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -124,6 +130,7 @@ public class TaskList {
                         + tasksMap.size() + " tasks in your task list\n");
             }
             task.setAsDone();
+            sortTasks();
             save();
             return ui.printMarkedTask(task);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -152,6 +159,7 @@ public class TaskList {
                         + tasksMap.size() + " tasks in your task list\n");
             }
             task.setAsNotDone();
+            sortTasks();
             save();
             return ui.printUnmarkedTask(task);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -194,4 +202,46 @@ public class TaskList {
             throw new BooException("Oops! Boo needs a keyword to find tasks.\n");
         }
     }
+
+    /**
+     * Sorts tasks based on their dates.
+     * Tasks without dates appear before the tasks with dates.
+     * Tasks with dates are sorted in chronological order based on their start dates.
+     * Task IDs are re-assigned based on the newly sorted order of the tasks.
+     */
+    private void sortTasks() {
+        List<Map.Entry<Integer, Task>> sortedEntries = this.tasksMap.entrySet().stream()
+                .sorted((entry1, entry2) -> {
+                    Task task1 = entry1.getValue();
+                    Task task2 = entry2.getValue();
+
+                    // If both tasks have no date, they stay in original order
+                    if (task1.getStartDate() == null && task2.getStartDate() == null) {
+                        return 0;
+                    }
+
+                    // If task1 has a date, but task2 has a date, task1 should appear first
+                    if (task1.getStartDate() == null) {
+                        return -1;
+                    }
+                    // If task2 has a date, but task1 has no date, task2 should appear after task1
+                    if (task2.getStartDate() == null) {
+                        return 1;
+                    }
+                    // Both tasks have dates, sort by start date
+                    return task1.getStartDate().compareTo(task2.getStartDate());
+                })
+                .toList();
+
+        // Reassign task IDs based on the new ordering of tasks
+        this.tasksMap.clear();
+        int newId = 1;
+        for (Map.Entry<Integer, Task> entry : sortedEntries) {
+            this.tasksMap.put(newId, entry.getValue());
+            newId++;
+        }
+        // Update taskId
+        this.taskId = newId;
+    }
+
 }

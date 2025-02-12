@@ -64,10 +64,10 @@ public class Storage {
                 assert description != null && !description.trim().isEmpty() : "Task description should not be empty";
                 if (task instanceof Deadline) {
                     Deadline deadlineTask = (Deadline) task;
-                    taskString += description + " (by: " + deadlineTask.getDeadlineDate() + ")";
+                    taskString += description + " (by: " + deadlineTask.getFormattedDeadline() + ")";
                 } else if (task instanceof Event) {
                     Event eventTask = (Event) task;
-                    taskString += description + " (from: " + eventTask.getStartTime() + " to: " + eventTask.getEndTime() + ")";
+                    taskString += description + " (from: " + eventTask.getFormattedStartTime() + " to: " + eventTask.getFormattedEndTime() + ")";
                 } else {
                     taskString += description;
                 }
