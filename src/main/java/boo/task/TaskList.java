@@ -28,7 +28,7 @@ public class TaskList {
         // Storage should not be null
         assert storage != null: "Storage must no be null!";
         this.storage = storage;
-        this.tasksMap = storage.loadTasks();
+        this.tasksMap = storage.loadTasksFromFile();
         //Ui should not be null
         assert ui != null: "Ui must not be null!";
         this.ui = ui;
@@ -46,7 +46,7 @@ public class TaskList {
      */
     private void save() throws BooException {
         assert storage != null : "Storage must not be null when saving";
-        storage.saveTask(tasksMap);
+        storage.saveTasksToFile(tasksMap);
     }
 
     public HashMap<Integer, Task> getTaskMap() {

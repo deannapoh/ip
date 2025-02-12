@@ -39,7 +39,7 @@ public class Storage {
      * @param taskMap Hashmap that contains a list of the task IDs and tasks.
      * @throws BooException If tasks were not saved successfully.
      */
-    public void saveTask(HashMap<Integer, Task> taskMap) throws BooException {
+    public void saveTasksToFile(HashMap<Integer, Task> taskMap) throws BooException {
         try {
             File file = new File(filePath);
 
@@ -88,7 +88,7 @@ public class Storage {
      * @return Hashmap of all the tasks that were present in the file.
      * @throws BooException If there was a problem loading the tasks in the file to the hashmap.
      */
-    public HashMap<Integer, Task> loadTasks() throws BooException {
+    public HashMap<Integer, Task> loadTasksFromFile() throws BooException {
         HashMap<Integer, Task> taskMap = new HashMap<>();
         File file = new File(filePath);
 
