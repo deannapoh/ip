@@ -1,5 +1,7 @@
 package boo.task;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a task with a description and completion status.
  */
@@ -54,5 +56,14 @@ public class Task {
      */
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
+    }
+
+    /**
+     * Returns the start date of the task as a LocalDateTime.
+     *
+     * @return Null for generic tasks.
+     */
+    public LocalDateTime getStartDate() {
+        return null;
     }
 }
