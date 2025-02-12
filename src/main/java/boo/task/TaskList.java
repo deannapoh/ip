@@ -25,20 +25,27 @@ public class TaskList {
      */
     public TaskList(Storage storage, Ui ui) throws BooException {
         this.tasksMap = new HashMap<Integer, Task>();
+        // Storage should not be null
+        assert storage != null: "Storage must no be null!";
         this.storage = storage;
         this.tasksMap = storage.loadTasks();
+        //Ui should not be null
+        assert ui != null: "Ui must not be null!";
         this.ui = ui;
         if (!tasksMap.isEmpty()) {
             this.taskId = tasksMap.size() + 1;
         } else {
             this.taskId = 1;
         }
+        // Task ID cannot be negative
+        assert taskId > 0 : "Task ID must always be positive";
     }
 
     /**
      * Saves the task list into a designated hard disk.
      */
     private void save() throws BooException {
+        assert storage != null : "Storage must not be null when saving";
         storage.saveTask(tasksMap);
     }
 
@@ -53,6 +60,7 @@ public class TaskList {
      * @param task Task that is to be added to the task list.
      */
     public String addTask(Task task) throws BooException {
+        assert task != null : "Task must not be null";
         tasksMap.put(taskId, task);
         this.taskId++;
         save();
@@ -67,6 +75,7 @@ public class TaskList {
      * @throws BooException If task ID could not be found or if task ID is not an integer.
      */
     public String deleteTask(String input) throws BooException {
+        assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = tasksMap.get(taskId);
@@ -105,6 +114,7 @@ public class TaskList {
      * @throws BooException If task ID could not be found or if task ID is not an integer.
      */
     public String markAsDone(String input) throws BooException {
+        assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = tasksMap.get(taskId);
@@ -132,6 +142,7 @@ public class TaskList {
      * @throws BooException If task ID could not be found or if task ID is not an integer.
      */
     public String markAsNotDone(String input) throws BooException {
+        assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
         try {
             int taskId = Integer.parseInt(input.split(" ")[1]);
             Task task = tasksMap.get(taskId);
@@ -159,6 +170,7 @@ public class TaskList {
      * @throws BooException If no keyword is provided.
      */
     public String findTask(String input) throws BooException {
+        assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
         try {
             String keyword = input.substring(4).trim();
             if (keyword.isEmpty()) {
@@ -168,6 +180,7 @@ public class TaskList {
             int numMatches = 0;
             for (int taskId : tasksMap.keySet()) {
                 Task task = tasksMap.get(taskId);
+                assert task != null : "Task should not be null in the task map";
                 if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
                     numMatches++;
                     matchedTask += numMatches + ". " + task + "\n";

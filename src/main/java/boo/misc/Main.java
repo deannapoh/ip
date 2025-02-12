@@ -16,6 +16,11 @@ public class Main extends Application {
 
     private Boo boo = new Boo();
 
+    /**
+     * Constructs the Main application class.
+     *
+     * @throws BooException If there is an issue initializing the Boo instance.
+     */
     public Main() throws BooException {
     }
 

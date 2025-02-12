@@ -47,10 +47,12 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "boo"
     archiveClassifier = null
+    destinationDirectory.set(file("/Users/deannapoh/Desktop"))
 }
 
 run{
     standardInput = System.in
+    enableAssertions = true
 }

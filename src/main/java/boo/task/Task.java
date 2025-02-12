@@ -14,6 +14,10 @@ public class Task {
      * Task is initially marked as not done.
      */
     public Task(String description) {
+        // Assert that the description is not null or empty
+        assert description != null && !description.trim().isEmpty() :
+                "Description for Deadline task should not be empty";
+        this.description = description;
         this.description = description;
         this.isDone = false;
     }
