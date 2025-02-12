@@ -35,10 +35,15 @@ public class Parser {
     public static Task parseTask(String message) throws BooException {
         Task task;
 
+        // Assert that the message is not null or empty
+        assert message != null : "Message should not be null";
+        assert !message.trim().isEmpty() : "Message should not be empty";
+
         // Create new todo task
         if (message.toLowerCase().startsWith("todo")) {
             try {
                 String description = message.substring(5).trim();
+                assert description != null : "Description should not be null";
                 if (description.isEmpty()) {
                     throw new BooException("Oops! Boo needs to know what todo task to add to the list!\n"
                             + "Please add a description of the todo task so Boo can help you!\n");
@@ -54,6 +59,7 @@ public class Parser {
             try {
                 String[] details = message.substring(9).split("/by");
                 String description = details[0].trim();
+                assert description != null : "Description should not be null";
 
                 // Check if there is a description
                 if (description.isEmpty()) {
@@ -62,12 +68,13 @@ public class Parser {
                 }
 
                 // Check if '/by' date is provided
-                String by = details[1].trim();
-                if (by.isEmpty()) {
+                String deadlineDate = details[1].trim();
+                assert deadlineDate != null : "Deadline date should not be null";
+                if (deadlineDate.isEmpty()) {
                     throw new BooException("Oops! Boo needs a '/by' time for the deadline task!\n"
                             + "Please provide a '/by' time, in the format of: /by (dd/MM/yyyy HHmm or dd/MM/yyyy)\n");
                 }
-                task = new Deadline(description, by);
+                task = new Deadline(description, deadlineDate);
             } catch (StringIndexOutOfBoundsException e) {
                 throw new BooException("Oops! Boo needs to know what deadline task to add to the list!\n"
                         + "Please add a description of the deadline task so Boo can help you!\n");
@@ -81,28 +88,28 @@ public class Parser {
             try {
                 String[] details = message.substring(6).split("/from|/to");
                 String description = details[0].trim();
-
+                assert description != null : "Description should not be null";
                 // Check if there is a description
                 if (description.isEmpty()) {
                     throw new BooException("Oops! Boo needs to know what event to add to the list!\n"
                             + "Please add a description of the event so Boo can help you!\n");
                 }
-
                 // Check if '/from' date is provided
-                String from = details[1].trim();
-                if (from.isEmpty()) {
+                String startTime = details[1].trim();
+                assert startTime != null : "Start time should not be null";
+                if (startTime.isEmpty()) {
                     throw new BooException("Oops! Boo needs a '/from' time for the event task!\n"
                             + "Please provide a '/from' time, in the format of: "
                             + "/from (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
-
                 // Check if '/to' date is provided
-                String to = details[2].trim();
-                if (to.isEmpty()) {
+                String endTime = details[2].trim();
+                assert endTime != null : "End time should not be null";
+                if (endTime.isEmpty()) {
                     throw new BooException("Oops! Boo needs a '/to' time for the event task!\n"
                             + "Please provide a '/to' time, in the format of: /to (dd/MM/yyyy HHmm or dd/MM/yyyy )\n");
                 }
-                task = new Event(description, from, to);
+                task = new Event(description, startTime, endTime);
             } catch (StringIndexOutOfBoundsException e) {
                 throw new BooException("Oops! Boo needs to know what event to add to the list!\n"
                         + "Please add a description of the event so Boo can help you!\n");
@@ -120,6 +127,8 @@ public class Parser {
                     + "4. delete: delete a specific task from the list (please specify which taskID)\n"
                     + "5. todo/event/deadline: add a todo/event/deadline task\n");
         }
+        // Assert that the created task is not null
+        assert task != null : "Task should not be null after parsing";
         return task;
     }
 }
