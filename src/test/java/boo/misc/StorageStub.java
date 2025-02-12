@@ -26,7 +26,7 @@ public class StorageStub extends Storage{
      * @param tasksMap List of tasks.
      */
     @Override
-    public void saveTask(HashMap<Integer, Task> tasksMap){
+    public void saveTasksToFile(HashMap<Integer, Task> tasksMap){
     }
 
     /**
@@ -34,7 +34,7 @@ public class StorageStub extends Storage{
      * Only two tasks are present in the list of tasks.
      */
     @Override
-    public HashMap<Integer, Task> loadTasks(){
+    public HashMap<Integer, Task> loadTasksFromFile(){
        HashMap<Integer, Task> tasksMap = new HashMap<>();
        tasksMap.put(1, new Task("Assignment"));
        tasksMap.put(2, new Task("Assignment"));

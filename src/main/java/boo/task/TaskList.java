@@ -26,7 +26,7 @@ public class TaskList {
     public TaskList(Storage storage, Ui ui) throws BooException {
         this.tasksMap = new HashMap<Integer, Task>();
         this.storage = storage;
-        this.tasksMap = storage.loadTasks();
+        this.tasksMap = storage.loadTasksFromFile();
         this.ui = ui;
         if (!tasksMap.isEmpty()) {
             this.taskId = tasksMap.size() + 1;
@@ -39,7 +39,7 @@ public class TaskList {
      * Saves the task list into a designated hard disk.
      */
     private void save() throws BooException {
-        storage.saveTask(tasksMap);
+        storage.saveTasksToFile(tasksMap);
     }
 
     public HashMap<Integer, Task> getTaskMap() {
