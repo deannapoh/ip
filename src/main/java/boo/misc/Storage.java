@@ -77,7 +77,7 @@ public class Storage {
             }
             writer.close();
         } catch (IOException e) {
-            throw new BooException("Oops! Boo couldn't save your tasks :(\n");
+            throw new BooException("Oops! Something went wrong! Boo couldn't save your tasks :(\n");
         }
     }
 
@@ -112,8 +112,8 @@ public class Storage {
                 assert taskDetails.length >= 4 : "Invalid task format in file";
 
                 if (taskDetails.length < 4) {
-                    throw new BooException("Invalid task format in file.\n"
-                            + "Expected 'taskID || taskType || isDone || description'.");
+                    throw new BooException("Oh no! Invalid task format in file.\n"
+                            + "Expected 'taskID || taskType || isDone || description'.\n");
                 }
                 try {
                     // Extract taskID, type, isDone, and description
@@ -132,7 +132,7 @@ public class Storage {
                         // Parsing Deadline: split by " (by: "
                         String[] details = description.split(" \\(by: ");
                         if (details.length < 2) {
-                            throw new BooException("Oops! Deadline task is missing 'by' date.");
+                            throw new BooException("Oops! Deadline task is missing 'by' date.\n");
                         }
                         String taskDescription = details[0].trim();
                         String deadlineDate = details[1].replace(")", "").trim();
@@ -149,7 +149,7 @@ public class Storage {
                         // Parsing Event: split by " (from: " and " to: "
                         String[] details = description.split(" \\(from: ");
                         if (details.length < 2) {
-                            throw new BooException("Oops! Event task is missing 'from' time.");
+                            throw new BooException("Oops! Event task is missing 'from' time.\n");
                         }
                         String taskDescription = details[0].trim();
                         String[] timeDetails = details[1].split(" to: ");
@@ -167,7 +167,7 @@ public class Storage {
                         // Create new Event task
                         task = new Event(taskDescription, formattedStartTime, formattedEndTime);
                     } else {
-                        throw new BooException("Oh no! Boo could not identify the task type found in file.");
+                        throw new BooException("Oh no! Boo could not identify the task type found in file.\n");
                     }
                     // Assert that task is not null after parsing it
                     assert task != null : "Task is null after parsing";
@@ -177,11 +177,11 @@ public class Storage {
                     }
                     taskMap.put(taskId, task);
                 } catch (Exception e) {
-                    throw new BooException("Error! Boo could not parse task: " + taskLine);
+                    throw new BooException("Error! Boo could not parse task: " + taskLine + "\n");
                 }
             }
         } catch (IOException e) {
-            throw new BooException("Oops! Boo couldn't load your tasks :(");
+            throw new BooException("Oops! Something went wrong! Boo couldn't load your tasks :(\n");
         }
         return taskMap;
     }

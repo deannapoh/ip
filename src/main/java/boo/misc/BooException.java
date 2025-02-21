@@ -11,7 +11,6 @@ public class BooException extends Exception {
      * @param message Message shown to user when exception occurs.
      */
     public BooException(String message) {
-        super("____________________________________________________________\n" + message
-                + "____________________________________________________________\n");
+        super(message);
     }
 }

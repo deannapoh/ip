@@ -1,7 +1,15 @@
 taskID: 1 || Todo task || isDone: true || assignment 2
-taskID: 2 || Todo task || isDone: false || event
-taskID: 3 || Deadline task || isDone: false || assignment (by: 24 Jan 2020 12:00 am)
-taskID: 4 || Deadline task || isDone: false || work (by: 02 Feb 2020 12:00 am)
-taskID: 5 || Event task || isDone: true || training (from: 03 Dec 2023 12:00 am to: 15 Jan 2025 12:00 am)
-taskID: 6 || Deadline task || isDone: false || assignment (by: 02 Feb 3030 8:00 am)
-taskID: 7 || Deadline task || isDone: false || work (by: 02 Feb 3030 9:00 am)
+taskID: 2 || Todo task || isDone: true || event
+taskID: 3 || Todo task || isDone: false || assignment
+taskID: 4 || Todo task || isDone: false || work
+taskID: 5 || Todo task || isDone: true || task
+taskID: 6 || Deadline task || isDone: false || assignment (by: 24 Jan 2020 12:00 am)
+taskID: 7 || Deadline task || isDone: false || work (by: 02 Feb 2020 12:00 am)
+taskID: 8 || Deadline task || isDone: false || task (by: 02 Feb 2023 12:00 am)
+taskID: 9 || Event task || isDone: false || training (from: 03 Dec 2023 12:00 am to: 15 Jan 2025 12:00 am)
+taskID: 10 || Deadline task || isDone: false || coding assignment (by: 10 Feb 2025 12:00 am)
+taskID: 11 || Deadline task || isDone: false || Homework (by: 21 Feb 2025 2:00 pm)
+taskID: 12 || Event task || isDone: false || holiday (from: 05 Mar 2025 12:00 am to: 29 Mar 2025 12:00 pm)
+taskID: 13 || Event task || isDone: false || Korea trip (from: 05 Mar 2025 12:00 am to: 29 Mar 2025 12:00 pm)
+taskID: 14 || Event task || isDone: false || Netball Training (from: 29 Mar 2025 4:00 pm to: 29 Mar 2025 6:00 pm)
+taskID: 15 || Deadline task || isDone: false || assignment (by: 02 Feb 3030 8:00 am)

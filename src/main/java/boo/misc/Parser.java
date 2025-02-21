@@ -45,7 +45,7 @@ public class Parser {
                 String description = message.substring(5).trim();
                 assert description != null : "Description should not be null";
                 if (description.isEmpty()) {
-                    throw new BooException("Oops! Boo needs to know what todo task to add to the list!\n"
+                    throw new BooException("Oops! Boo needs to know what todo task to add it to the list!\n"
                             + "Please add a description of the todo task so Boo can help you!\n");
                 }
                 return new Todo(description);
