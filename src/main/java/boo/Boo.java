@@ -37,7 +37,9 @@ public class Boo {
         ui.printGreeting();
         try {
             if (input.equalsIgnoreCase("bye")) {
-                return ui.printGoodbyeMessage();
+                String goodbyeMessage = ui.printGoodbyeMessage();
+                System.exit(0);
+                return goodbyeMessage;
             }
             if (input.equalsIgnoreCase("list")) {
                 return ui.printTaskHistory(taskList.getTaskMap());
