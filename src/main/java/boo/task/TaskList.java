@@ -27,20 +27,18 @@ public class TaskList {
      * @param ui Interface that interacts with the user.
      */
     public TaskList(Storage storage, Ui ui) throws BooException {
+        assert storage != null : "Storage must not be null!";
+        assert ui != null : "Ui must not be null!";
+
         this.tasksMap = new HashMap<Integer, Task>();
-        // Storage should not be null
-        assert storage != null: "Storage must no be null!";
         this.storage = storage;
         this.tasksMap = storage.loadTasksFromFile();
-        //Ui should not be null
-        assert ui != null: "Ui must not be null!";
         this.ui = ui;
         if (!tasksMap.isEmpty()) {
             this.taskId = tasksMap.size() + 1;
         } else {
             this.taskId = 1;
         }
-        // Task ID cannot be negative
         assert taskId > 0 : "Task ID must always be positive";
     }
 
@@ -48,7 +46,6 @@ public class TaskList {
      * Saves the task list into a designated hard disk.
      */
     private void save() throws BooException {
-        assert storage != null : "Storage must not be null when saving";
         storage.saveTasksToFile(tasksMap);
     }
 
@@ -67,8 +64,7 @@ public class TaskList {
         assert task != null : "Task must not be null";
         tasksMap.put(taskId, task);
         this.taskId++;
-        sortTasks();
-        save();
+        updateTasks();
         return ui.printAddedTask(taskId, task);
     }
 
@@ -81,35 +77,23 @@ public class TaskList {
      */
     public String deleteTask(String input) throws BooException {
         assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
-        try {
-            int taskId = Integer.parseInt(input.split(" ")[1]);
-            Task task = tasksMap.get(taskId);
-            if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
-                        + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
-                        + tasksMap.size() + " tasks in your task list\n");
-            }
-            this.tasksMap.remove(taskId);
+        int taskId = parseTaskId(input);
+        Task task = getTask(taskId);
+        tasksMap.remove(taskId);
+        shiftTasks(taskId);
+        updateTasks();
+        return ui.printRemovedTask(this.taskId, task);
+    }
 
-            //Shift the remaining tasks
-            for (int i = taskId + 1; i <= this.taskId - 1; i++) {
-                Task shiftedTask = tasksMap.get(i);
-                if (shiftedTask != null) {
-                    tasksMap.put(i - 1, shiftedTask);
-                    tasksMap.remove(i);
-                }
+    private void shiftTasks(int deletedTaskId) {
+        for (int i = deletedTaskId + 1; i < taskId; i++) {
+            Task shiftedTask = tasksMap.get(i);
+            if (shiftedTask != null) {
+                tasksMap.put(i - 1, shiftedTask);
+                tasksMap.remove(i);
             }
-            // Total taskID - 1 since one task was deleted
-            this.taskId--;
-            sortTasks();
-            save();
-            return ui.printRemovedTask(this.taskId, task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to delete it.\n"
-                    + "Please try again so that Boo can help :)\n");
-        } catch (NumberFormatException e) {
-            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
         }
+        taskId--;
     }
 
     /**
@@ -121,24 +105,16 @@ public class TaskList {
      */
     public String markAsDone(String input) throws BooException {
         assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
-        try {
-            int taskId = Integer.parseInt(input.split(" ")[1]);
-            Task task = tasksMap.get(taskId);
-            if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
-                        + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
-                        + tasksMap.size() + " tasks in your task list\n");
-            }
-            task.setAsDone();
-            sortTasks();
-            save();
-            return ui.printMarkedTask(task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\n"
-                    + "Please try again so that Boo can help :)\n");
-        } catch (NumberFormatException e) {
-            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
+        int taskId = parseTaskId(input);
+        Task task = tasksMap.get(taskId);
+        if (task == null) {
+            throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
+                    + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
+                    + tasksMap.size() + " tasks in your task list\n");
         }
+        task.setAsDone();
+        updateTasks();
+        return ui.printMarkedTask(task);
     }
 
     /**
@@ -150,24 +126,16 @@ public class TaskList {
      */
     public String markAsNotDone(String input) throws BooException {
         assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
-        try {
-            int taskId = Integer.parseInt(input.split(" ")[1]);
-            Task task = tasksMap.get(taskId);
-            if (task == null) {
-                throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
-                        + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
-                        + tasksMap.size() + " tasks in your task list\n");
-            }
-            task.setAsNotDone();
-            sortTasks();
-            save();
-            return ui.printUnmarkedTask(task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new BooException("Oops! Boo needs you to specify a task ID to mark it as done.\n"
-                    + "Please try again so that Boo can help :)\n");
-        } catch (NumberFormatException e) {
-            throw new BooException("Oops! Boo needs your task ID to be an integer!\n");
+        int taskId = parseTaskId(input);
+        Task task = tasksMap.get(taskId);
+        if (task == null) {
+            throw new BooException("Oh no! Boo could not find task with ID " + taskId + ".\n"
+                    + "Maybe you mixed up the task IDS? Please try again!\nThere are currently "
+                    + tasksMap.size() + " tasks in your task list\n");
         }
+        task.setAsNotDone();
+        updateTasks();
+        return ui.printUnmarkedTask(task);
     }
 
     /**
@@ -179,26 +147,31 @@ public class TaskList {
      */
     public String findTask(String input) throws BooException {
         assert input != null && !input.trim().isEmpty() : "Input must not be null or empty";
+        String keyword = extractKeyword(input);
+        String matchedTask = "Here are the matching tasks in your list:\n";
+        int numMatches = 0;
+        for (int taskId : tasksMap.keySet()) {
+            Task task = tasksMap.get(taskId);
+            assert task != null : "Task should not be null in the task map";
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                numMatches++;
+                matchedTask += numMatches + ". " + task + "\n";
+            }
+        }
+        if (numMatches == 0) {
+            matchedTask = "Oh no! Boo could not find any tasks that contain that keyword :(\n";
+        }
+        return ui.printMessage(matchedTask);
+    }
+
+    private String extractKeyword(String input) throws BooException {
         try {
             String keyword = input.substring(4).trim();
             if (keyword.isEmpty()) {
                 throw new BooException("Oops! Boo needs a keyword to find tasks.\n");
             }
-            String matchedTask = "Here are the matching tasks in your list:\n";
-            int numMatches = 0;
-            for (int taskId : tasksMap.keySet()) {
-                Task task = tasksMap.get(taskId);
-                assert task != null : "Task should not be null in the task map";
-                if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
-                    numMatches++;
-                    matchedTask += numMatches + ". " + task + "\n";
-                }
-            }
-            if (numMatches == 0) {
-                matchedTask = "Oh no! Boo could not find any tasks that contain that keyword :(\n";
-            }
-            return ui.printMessage(matchedTask);
-        } catch (StringIndexOutOfBoundsException e) {
+            return keyword;
+        } catch (Exception e) {
             throw new BooException("Oops! Boo needs a keyword to find tasks.\n");
         }
     }
@@ -210,38 +183,59 @@ public class TaskList {
      * Task IDs are re-assigned based on the newly sorted order of the tasks.
      */
     private void sortTasks() {
-        List<Map.Entry<Integer, Task>> sortedEntries = this.tasksMap.entrySet().stream()
-                .sorted((entry1, entry2) -> {
-                    Task task1 = entry1.getValue();
-                    Task task2 = entry2.getValue();
-
-                    // If both tasks have no date, they stay in original order
-                    if (task1.getStartDate() == null && task2.getStartDate() == null) {
-                        return 0;
-                    }
-
-                    // If task1 has a date, but task2 has a date, task1 should appear first
-                    if (task1.getStartDate() == null) {
-                        return -1;
-                    }
-                    // If task2 has a date, but task1 has no date, task2 should appear after task1
-                    if (task2.getStartDate() == null) {
-                        return 1;
-                    }
-                    // Both tasks have dates, sort by start date
-                    return task1.getStartDate().compareTo(task2.getStartDate());
-                })
+        List<Map.Entry<Integer, Task>> sortedEntries = tasksMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(this::compareTasksByDate))
                 .toList();
+        reassignTaskIds(sortedEntries);
+    }
 
-        // Reassign task IDs based on the new ordering of tasks
-        this.tasksMap.clear();
+    private int compareTasksByDate(Task task1, Task task2) {
+        // If both tasks have no date, they stay in original order
+        if (task1.getStartDate() == null && task2.getStartDate() == null) {
+            return 0;
+        }
+        // If task1 has no date, but task2 has a date, task1 should appear first
+        if (task1.getStartDate() == null) {
+            return -1;
+        }
+        // If task2 has a date, but task1 has no date, task2 should appear after task1
+        if (task2.getStartDate() == null) {
+            return 1;
+        }
+        return task1.getStartDate().compareTo(task2.getStartDate());
+    }
+
+    private void reassignTaskIds(List<Map.Entry<Integer, Task>> sortedEntries) {
+        tasksMap.clear();
         int newId = 1;
         for (Map.Entry<Integer, Task> entry : sortedEntries) {
-            this.tasksMap.put(newId, entry.getValue());
-            newId++;
+            tasksMap.put(newId++, entry.getValue());
         }
-        // Update taskId
-        this.taskId = newId;
+        taskId = newId;
+    }
+
+    private Task getTask(int taskId) throws BooException {
+        Task task = tasksMap.get(taskId);
+        if (task == null) {
+            throw new BooException("Task with ID " + taskId + " not found.");
+        }
+        return task;
+    }
+
+    private int parseTaskId(String input) throws BooException {
+        try {
+            return Integer.parseInt(input.split(" ")[1]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new BooException("Oops! Boo needs you to specify a task ID.\n"
+                    + "Please try again so that Boo can help :)\n");
+        } catch (NumberFormatException e) {
+            throw new BooException("Oops! Boo needs your Task ID to be an integer!\n");
+        }
+    }
+
+    private void updateTasks() throws BooException {
+        sortTasks();
+        save();
     }
 
 }
