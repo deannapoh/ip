@@ -179,7 +179,6 @@ public class TaskList {
     /**
      * Sorts tasks based on their dates.
      * Tasks without dates appear before the tasks with dates.
-     * Tasks with dates are sorted in chronological order based on their start dates.
      * Task IDs are re-assigned based on the newly sorted order of the tasks.
      */
     private void sortTasks() {
