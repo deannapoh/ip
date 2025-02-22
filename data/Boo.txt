@@ -1,3 +1,3 @@
-taskID: 1 || Todo task || isDone: false || homework
+taskID: 1 || Todo task || isDone: true || homework
 taskID: 2 || Deadline task || isDone: false || task (by: 02 Feb 2023 12:00 am)
 taskID: 3 || Event task || isDone: false || Netball Training (from: 29 Mar 2025 4:00 pm to: 29 Mar 2025 6:00 pm)

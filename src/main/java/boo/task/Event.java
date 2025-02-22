@@ -1,11 +1,11 @@
 package boo.task;
 
 import boo.misc.BooException;
+import boo.misc.Parser;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
 
 /**
  * Represents an event task.
@@ -26,34 +26,14 @@ public class Event extends Task {
      */
     public Event(String description, String startTime, String endTime) throws BooException {
         super(description);
-        // Assert that the description is not null or empty
-        assert description != null && !description.trim().isEmpty() :
-                "Description for Deadline task should not be empty";
-        try {
-            // Check if start time is present in the input
-            if (startTime.contains(" ")) {
-                // Time is provided, parse it as LocalDateTime
-                this.startTime = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
-            } else {
-                // No time, parse it as LocalDate
-                this.startTime = LocalDate.parse(startTime, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay();
-            }
-            // Check if end time is present in the input
-            if (endTime.contains(" ")) {
-                // Time is provided, parse it as LocalDateTime
-                this.endTime = LocalDateTime.parse(endTime, DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
-            } else {
-                // No time, parse it as LocalDate
-                this.endTime = LocalDate.parse(endTime, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay();
-            }
-            // Ensure that 'startTime' is not before 'endTime'
-            if (this.endTime.isBefore(this.startTime)) {
-                throw new BooException("Oops! The 'to' time cannot be before the 'from' time.\n"
-                        + "Please enter the timing again!\n");
-            }
-        } catch (DateTimeParseException e) {
-            throw new BooException("Oops! You have used the incorrect date format!\n"
-                    + "Please try again with the format dd/MM/yyyy or dd/MM/yyyy HHmm!\n");
+        assert description != null && !description.trim().isEmpty() : "Description for Event task should not be empty";
+
+        this.startTime = Parser.parseDateTime(startTime);
+        this.endTime = Parser.parseDateTime(endTime);
+
+        if (this.endTime.isBefore(this.startTime)) {
+            throw new BooException("Oops! The 'to' time cannot be before the 'from' time.\n"
+                    + "Please enter the timing again!\n");
         }
     }
 
