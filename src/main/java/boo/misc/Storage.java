@@ -62,11 +62,9 @@ public class Storage {
                 // Handle the task description based on its type
                 String description = task.getDescription();
                 assert description != null && !description.trim().isEmpty() : "Task description should not be empty";
-                if (task instanceof Deadline) {
-                    Deadline deadlineTask = (Deadline) task;
+                if (task instanceof Deadline deadlineTask) {
                     taskString += description + " (by: " + deadlineTask.getFormattedDeadline() + ")";
-                } else if (task instanceof Event) {
-                    Event eventTask = (Event) task;
+                } else if (task instanceof Event eventTask) {
                     taskString += description + " (from: " + eventTask.getFormattedStartTime() + " to: " + eventTask.getFormattedEndTime() + ")";
                 } else {
                     taskString += description;

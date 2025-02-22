@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Boo boo = new Boo();
+    private final Boo boo = new Boo();
 
     /**
      * Constructs the Main application class.
@@ -31,6 +31,7 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setTitle("Boo");
             fxmlLoader.<MainWindow>getController().setBoo(boo);  // inject the Boo instance
             stage.show();
         } catch (IOException e) {
