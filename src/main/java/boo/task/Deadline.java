@@ -1,11 +1,11 @@
 package boo.task;
 
 import boo.misc.BooException;
+import boo.misc.Parser;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
 
 /**
  * Represents a Deadline task.
@@ -23,24 +23,9 @@ public class Deadline extends Task {
      */
     public Deadline(String description, String deadlineDate) throws BooException {
         super(description);
-        // Assert that the description is not null or empty
         assert description != null && !description.trim().isEmpty() :
                 "Description for Deadline task should not be empty";
-
-        try {
-            // Check if time is present in the input
-            if (deadlineDate.contains(" ")) {
-                // Time is provided, parse it as LocalDateTime
-                this.deadlineDate = LocalDateTime.parse(deadlineDate, DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm"));
-            } else {
-                // No time, parse it as LocalDate
-                this.deadlineDate = LocalDate.parse(deadlineDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay();
-            }
-        } catch (DateTimeParseException e) {
-            throw new BooException("Oops! You have used the incorrect date format!\n"
-                    + "Please try again with the format dd/MM/yyyy or dd/MM/yyyy HHmm!\n");
-        }
-        // Assert that the deadlineDate is correctly parsed
+        this.deadlineDate = Parser.parseDateTime(deadlineDate);
         assert this.deadlineDate != null : "Deadline date is not properly parsed";
     }
 
