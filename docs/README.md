@@ -1,6 +1,6 @@
 # Boo User Guide
 
-// Product screenshot
+![Screenshot of Boo Chatbot](./Ui.png)
 
 ## Product Introduction
 Boo is your cheerful, friendly and encouraging chatbot designed to help you manage your tasks with ease and keep you on track! Whether you're juggling your todos, deadlines, events or more, Boo will help you keep track of tasks so that you will stop ghosting your responsibilities! 👻

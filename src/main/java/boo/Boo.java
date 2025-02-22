@@ -6,17 +6,14 @@ import boo.misc.Storage;
 import boo.misc.Ui;
 import boo.task.TaskList;
 
-
-import java.util.Scanner;
-
 /**
  * Represents the main class of the program.
  */
 public class Boo {
-    private Ui ui;
-    private Storage storage;
-    private TaskList taskList;
-    private Parser parser;
+    private final Ui ui;
+    private final Storage storage;
+    private final TaskList taskList;
+    private final Parser parser;
 
     /**
      * Constructor for the chatbot

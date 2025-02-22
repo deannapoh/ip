@@ -10,8 +10,8 @@ import boo.task.Todo;
  * Represents a class that handles the parsing of user inputs.
  */
 public class Parser {
-    private TaskList taskList;
-    private Ui ui;
+    private final TaskList taskList;
+    private final Ui ui;
 
     /**
      * Constructs a parser that parses user inputs.

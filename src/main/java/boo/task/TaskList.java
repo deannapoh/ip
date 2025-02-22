@@ -15,9 +15,9 @@ import java.util.Map;
  */
 public class TaskList {
     private HashMap<Integer, Task> tasksMap;
-    private Ui ui;
+    private final Ui ui;
     private int taskId;
-    private Storage storage;
+    private final Storage storage;
 
     /**
      * Constructs a list of tasks, in the form of a Hashmap.
