@@ -179,7 +179,7 @@ public class TaskList {
     /**
      * Sorts tasks based on their dates.
      * Tasks without dates appear before the tasks with dates.
-     * Task IDs are re-assigned based on the newly sorted order of the tasks.
+     * Re-assign task IDs based on the newly sorted order of the tasks.
      */
     private void sortTasks() {
         List<Map.Entry<Integer, Task>> sortedEntries = tasksMap.entrySet().stream()
